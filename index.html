@@ -75,6 +75,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Peak-calling-for-CLIP-Seq-data-by-omniCLIP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/amliang0909/JAS.git/2024/11/30/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/" class="article-date">
+  <time class="dt-published" datetime="2024-11-30T12:42:25.000Z" itemprop="datePublished">2024-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/amliang0909/JAS.git/2024/11/30/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/">Peak calling for CLIP-Seq data by omniCLIP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/amliang0909/JAS.git/2024/11/30/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/" data-id="cm445x8hf00008svqg4cnes83" data-title="Peak calling for CLIP-Seq data by omniCLIP" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-了解t检验" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/amliang0909/JAS.git/2024/11/30/%E4%BA%86%E8%A7%A3t%E6%A3%80%E9%AA%8C/" class="article-date">
@@ -105,123 +143,6 @@
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-peak-calling-for-CLIP-seq-data-by-omniCLIP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/amliang0909/JAS.git/2024/09/25/peak-calling-for-CLIP-seq-data-by-omniCLIP/" class="article-date">
-  <time class="dt-published" datetime="2024-09-25T15:18:32.000Z" itemprop="datePublished">2024-09-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/amliang0909/JAS.git/2024/09/25/peak-calling-for-CLIP-seq-data-by-omniCLIP/">peak calling for CLIP-seq data by omniCLIP</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>————————————————————————————————————————————————————————————</strong></p>
-<h2 id="1-data-preparation"><a href="#1-data-preparation" class="headerlink" title="1. data preparation"></a>1. data preparation</h2><h4 id="1-1-data"><a href="#1-1-data" class="headerlink" title="1.1). data"></a>1.1). data</h4><p><strong>GSE98188</strong> from paper : </p>
-<p>  Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by controlling Sex-lethal alternative splicing.  </p>
-<p>  <em>Nucleic Acids Res</em> 2019</p>
-<p> <strong>data download</strong> </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">iCLIP <span class="keyword">in</span> SL2 cells</span></span><br><span class="line">lftp -e &#x27;pget -n 15 -c &quot;ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR548/007/SRR5480967/SRR5480967.fastq.gz&quot;;exit&#x27; # Similar methods for other samples.</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="1-2-data-clean"><a href="#1-2-data-clean" class="headerlink" title="1.2). data clean"></a>1.2). data clean</h4><p> <strong>Since the paper did not provide the adapter sequences and the length and position of the UMI</strong>.</p>
-<p> I  tried different methods  to mark and remove the UMI and adapter.</p>
-<p> <strong>a). remove adapter</strong></p>
-<p>To detect the adapter sequences used, I first processed the raw sequencing data with trim_galore.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls ../*fastq.gz |while read id;do (trim_galore --quality 20  --length 20 -o ./ $id);done</span><br></pre></td></tr></table></figure>
-
-<p><img src="/amliang0909/JAS.git/peak-calling-for-CLIP-seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png"></p>
-<p>Based on the “auto-detection adapter” in the above figure, we can infer that the adapter sequence is AGATCGGAAGAGC.</p>
-<p>The same processing method was applied to the other samples as well.   </p>
-<p>Therefore,  removing the adapter from the raw sequence data based on the sequences identified above.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for i in *.fastq.gz;</span><br><span class="line">do</span><br><span class="line">id=$&#123;i%.fastq.gz&#125;</span><br><span class="line">echo $i,$id</span><br><span class="line">cutadapt -q 25 -a AGATCGGAAGAGC  --overlap=3 -n 1 -m 24 -o $&#123;id&#125;_cutadap.fastq.gz  $&#123;id&#125;.fastq.gz</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-
-
-<p> <strong>b). mark UMI</strong></p>
-<p> I used the adapters-removed reads for a BLAST against the genome in flybase and found that there are always 10 unpaired  bases at the 5’ end of the reads. Therefore, I suspect these are the UMI, as shown in the figure below.</p>
-<p>​	<a href="mailto:&#x72;&#x65;&#x61;&#x64;&#45;&#x40;&#x53;&#x52;&#x52;&#53;&#x34;&#56;&#48;&#57;&#54;&#55;&#46;&#x31;&#x31;">&#x72;&#x65;&#x61;&#x64;&#45;&#x40;&#x53;&#x52;&#x52;&#53;&#x34;&#56;&#48;&#57;&#54;&#55;&#46;&#x31;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp</p>
-<p><img src="/amliang0909/JAS.git/peak-calling-for-CLIP-seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925152308.png"></p>
-<p>​	                                  </p>
-<p>​	<a href="mailto:&#x72;&#101;&#x61;&#x64;&#x2d;&#x40;&#x53;&#82;&#82;&#x35;&#x34;&#x38;&#x30;&#x39;&#x36;&#x37;&#46;&#50;&#49;&#56;">&#x72;&#101;&#x61;&#x64;&#x2d;&#x40;&#x53;&#82;&#82;&#x35;&#x34;&#x38;&#x30;&#x39;&#x36;&#x37;&#46;&#50;&#49;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
-<p>​          <img src="/amliang0909/JAS.git/peak-calling-for-CLIP-seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925153715.png"></p>
-<p>Next, I used the <strong>flexbar</strong> software to mark the UMIs in the reads.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;  barcodes.fa   # create a file, with 10 N (length of UMI is 10 bp)</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">umi</span></span><br><span class="line">NNNNNNNNNN</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">conda activate py39</span><br><span class="line"></span><br><span class="line">for i in *_cutadapt.fastq.gz;</span><br><span class="line">do</span><br><span class="line">id=$&#123;i%_cutadapt.fastq.gz&#125;</span><br><span class="line">echo $i,$id</span><br><span class="line">flexbar -r $&#123;id&#125;_cutadapt.fastq.gz  -b barcodes.fa --umi-tags -t $&#123;id&#125; -z GZ</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-<h3 id="2-omniCLIP-for-CLIP-Seq-peaks-calling"><a href="#2-omniCLIP-for-CLIP-Seq-peaks-calling" class="headerlink" title="2.omniCLIP for CLIP-Seq peaks calling"></a>2.omniCLIP for CLIP-Seq peaks calling</h3><h4 id="2-1-intsall-omniCLIP"><a href="#2-1-intsall-omniCLIP" class="headerlink" title="2.1). intsall omniCLIP"></a>2.1). intsall omniCLIP</h4><p><strong>download</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/philippdre/omniCLIP.git </span><br></pre></td></tr></table></figure>
-
-<p><strong>create conda env</strong> </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd omniCLIP/</span><br><span class="line">conda env create -f environment.yml</span><br><span class="line">conda activate omniEnv</span><br></pre></td></tr></table></figure>
-
-<p><strong>install</strong> </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="2-2-build-a-db-files-of-annotation-gtf"><a href="#2-2-build-a-db-files-of-annotation-gtf" class="headerlink" title="2.2). build a db files of annotation gtf"></a>2.2). build a db files of annotation gtf</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cd /home/xuyz_g/soft/omniCLIP # programs can only run successfully in directory of omniCLIP，don&#x27;t know why</span><br><span class="line"></span><br><span class="line">omniCLIP generateDB --gff-file /data1/amliang/annotation/fly/Drosophila_melanogaster.BDGP6.22.42.gff3 --db-file /data1/amliang/annotation/fly/flyase/gff/omniCLIP/dmel-all-r6.45.gff.db # </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">At the same time, you also need to prepare a reference genome sequence and divide it into chromosomes</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">like this <span class="keyword">in</span> : /data3/tmp_g/genome_anno/fly/genome/chroms</span></span><br><span class="line">  2L.fa.gz</span><br><span class="line">  2R.fa.gz</span><br><span class="line">  3L.fa.gz</span><br><span class="line">  3R.fa.gz</span><br><span class="line">  4.fa.gz</span><br><span class="line">  X.fa.gz</span><br><span class="line">  Y.fa.gz</span><br></pre></td></tr></table></figure>
-
-<h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1) If an error message appears saying that like this:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">   FileNotFoundError: [Errno 2] No such file or directory: <span class="string">&#x27;version.py&#x27;</span>,</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	 just copy it from another directory to this directory.</span></span><br><span class="line">cp /data1/tmp/soft/omniCLIP/version.py  yourPath/omniCLIP-0.2.0-py3.8-linux-x86_64.egg/omniCLIP/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2) <span class="keyword">if</span> a error shows:</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	 File <span class="string">&quot;yourPath/omniCLIP/data_parsing/ParsingArgs.py&quot;</span>, line 44, <span class="keyword">in</span> parsing_argparse</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">   NameError: name <span class="string">&#x27;verifying_args&#x27;</span> is not defined</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	Just vim into ParsingArgs.py and comment out or delete this line of verifying_args : like picture</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/amliang0909/JAS.git/peak-calling-for-CLIP-seq-data-by-omniCLIP/cafe8f28ebe46206d0d18799cab131c.png"></p>
-<h4 id="2-3-parsing-the-background-files"><a href="#2-3-parsing-the-background-files" class="headerlink" title="2.3). parsing the background files"></a>2.3). parsing the background files</h4><h6 id="Usually-RNA-SEQ-data-but-sometimes-input-data-is-used"><a href="#Usually-RNA-SEQ-data-but-sometimes-input-data-is-used" class="headerlink" title="(Usually RNA-SEQ data, but sometimes input data is used)"></a>(Usually RNA-SEQ data, but sometimes input data is used)</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">omniCLIP parsingBG --db-file /data3/tmp_g/projects/omniCLIP/dmel-all-r6.45.gff.db --genome-dir /data3/tmp_g/projects/omniCLIP/chroms/ --bg-files /data3/tmp_g/projects/SSX_CLIP/4.peak/Ctrl_IP1.bam --bg-files /data3/tmp_g/projects/SSX_CLIP/4.peak/Ctrl_IP2.bam  --out-file /data3/tmp_g/projects/SSX_CLIP/4.peak/CTRL.dat</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="4-parsing-the-CLIP-files"><a href="#4-parsing-the-CLIP-files" class="headerlink" title="4). parsing the CLIP files"></a>4). parsing the CLIP files</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">omniCLIP parsingCLIP --db-file /data3/tmp_g/projects/omniCLIP/dmel-all-r6.45.gff.db --genome-dir /data3/tmp_g/projects/omniCLIP/chroms/ --clip-files /data3/tmp_g/projects/SSX_CLIP/4.peak/Ssx_IP1.bam  --clip-files /data3/tmp_g/projects/SSX_CLIP/4.peak/Ssx_IP2.bam  --out-file /data3/tmp_g/projects/SSX_CLIP/4.peak/SSX.dat</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="5-Running-the-omniCLIP-algorithm"><a href="#5-Running-the-omniCLIP-algorithm" class="headerlink" title="5). Running the omniCLIP algorithm"></a>5). Running the omniCLIP algorithm</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">omniCLIP run_omniCLIP --db-file /data3/tmp_g/projects/omniCLIP/dmel-all-r6.45.gff.db  --bg-dat /data3/tmp_g/projects/SSX_CLIP/4.peak/CTRL.dat  --clip-dat /data3/tmp_g/projects/SSX_CLIP/4.peak/SSX.dat  --out-dir /data3/tmp_g/projects/SSX_CLIP/4.peak/reslut</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://github.com/amliang0909/JAS.git/2024/09/25/peak-calling-for-CLIP-seq-data-by-omniCLIP/" data-id="cm445t1o70000qcvqf7zp5xl9" data-title="peak calling for CLIP-seq data by omniCLIP" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/amliang0909/JAS.git/tags/Bioinformatic/" rel="tag">Bioinformatic</a></li></ul>
-
     </footer>
   </div>
   
@@ -282,23 +203,9 @@
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/amliang0909/JAS.git/tags/Bioinformatic/" rel="tag">Bioinformatic</a></li></ul>
-    </div>
-  </div>
-
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/amliang0909/JAS.git/tags/Bioinformatic/" style="font-size: 10px;">Bioinformatic</a>
-    </div>
-  </div>
-
   
     
   <div class="widget-wrap">
@@ -317,11 +224,11 @@
       <ul>
         
           <li>
-            <a href="/amliang0909/JAS.git/2024/11/30/%E4%BA%86%E8%A7%A3t%E6%A3%80%E9%AA%8C/">了解t检验</a>
+            <a href="/amliang0909/JAS.git/2024/11/30/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/">Peak calling for CLIP-Seq data by omniCLIP</a>
           </li>
         
           <li>
-            <a href="/amliang0909/JAS.git/2024/09/25/peak-calling-for-CLIP-seq-data-by-omniCLIP/">peak calling for CLIP-seq data by omniCLIP</a>
+            <a href="/amliang0909/JAS.git/2024/11/30/%E4%BA%86%E8%A7%A3t%E6%A3%80%E9%AA%8C/">了解t检验</a>
           </li>
         
           <li>
