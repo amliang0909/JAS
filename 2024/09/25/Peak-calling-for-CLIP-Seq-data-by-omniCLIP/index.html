@@ -13,16 +13,16 @@
 <meta property="og:site_name" content="Jiang A-sheng">
 <meta property="og:description" content="———————————————————————————————————————————————————————————— 1. data preparation1.1). dataGSE98188 from paper :    Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.lianganmin.cn/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png">
-<meta property="og:image" content="https://www.lianganmin.cn/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925152308.png">
-<meta property="og:image" content="https://www.lianganmin.cn/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925153715.png">
-<meta property="og:image" content="https://www.lianganmin.cn/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/cafe8f28ebe46206d0d18799cab131c.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925152308.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925153715.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/cafe8f28ebe46206d0d18799cab131c.png">
 <meta property="article:published_time" content="2024-09-25T15:18:32.000Z">
 <meta property="article:modified_time" content="2024-12-01T09:17:26.508Z">
 <meta property="article:author" content="An-min">
 <meta property="article:tag" content="Bioinformatic">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.lianganmin.cn/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png">
+<meta name="twitter:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png">
   
     <link rel="alternate" href="/atom.xml" title="Jiang A-sheng" type="application/atom+xml">
   
@@ -120,7 +120,7 @@
 <p>To detect the adapter sequences used, I first processed the raw sequencing data with trim_galore.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls ../*fastq.gz |while read id;do (trim_galore --quality 20  --length 20 -o ./ $id);done</span><br></pre></td></tr></table></figure>
 
-<img src="/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png" class>
+<img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925143315.png" class>
 
 <p>Based on the “auto-detection adapter” in the above figure, we can infer that the adapter sequence is AGATCGGAAGAGC.</p>
 <p>The same processing method was applied to the other samples as well.   </p>
@@ -131,12 +131,12 @@
 
 <p> <strong>b). mark UMI</strong></p>
 <p> I used the adapters-removed reads for a BLAST against the genome in flybase and found that there are always 10 unpaired  bases at the 5’ end of the reads. Therefore, I suspect these are the UMI, as shown in the figure below.</p>
-<p>​	<a href="mailto:&#x72;&#101;&#97;&#x64;&#45;&#x40;&#83;&#82;&#82;&#53;&#52;&#x38;&#x30;&#x39;&#54;&#55;&#x2e;&#49;&#x31;">&#x72;&#101;&#97;&#x64;&#45;&#x40;&#83;&#82;&#82;&#53;&#52;&#x38;&#x30;&#x39;&#54;&#55;&#x2e;&#49;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp</p>
-<img src="/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925152308.png" class>
+<p>​	<a href="mailto:&#114;&#x65;&#x61;&#100;&#45;&#x40;&#x53;&#82;&#82;&#53;&#52;&#56;&#x30;&#x39;&#54;&#x37;&#x2e;&#x31;&#49;">&#114;&#x65;&#x61;&#100;&#45;&#x40;&#x53;&#82;&#82;&#53;&#52;&#56;&#x30;&#x39;&#54;&#x37;&#x2e;&#x31;&#49;</a> 11&#x2F;1   length &#x3D; 53 bp</p>
+<img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925152308.png" class>
 
 <p>​	                                  </p>
-<p>​	<a href="mailto:&#x72;&#101;&#x61;&#x64;&#45;&#64;&#83;&#82;&#82;&#x35;&#52;&#56;&#48;&#x39;&#54;&#x37;&#x2e;&#50;&#x31;&#56;">&#x72;&#101;&#x61;&#x64;&#45;&#64;&#83;&#82;&#82;&#x35;&#52;&#56;&#48;&#x39;&#54;&#x37;&#x2e;&#50;&#x31;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
-<p>​          <img src="/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925153715.png" class></p>
+<p>​	<a href="mailto:&#114;&#101;&#97;&#100;&#45;&#x40;&#83;&#82;&#x52;&#53;&#x34;&#56;&#x30;&#x39;&#54;&#55;&#46;&#50;&#49;&#x38;">&#114;&#101;&#97;&#100;&#45;&#x40;&#83;&#82;&#x52;&#53;&#x34;&#56;&#x30;&#x39;&#54;&#55;&#46;&#50;&#49;&#x38;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
+<p>​          <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240925153715.png" class></p>
 <p>Next, I used the <strong>flexbar</strong> software to mark the UMIs in the reads.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &gt;  barcodes.fa   # create a file, with 10 N (length of UMI is 10 bp)</span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">umi</span></span><br><span class="line">NNNNNNNNNN</span><br></pre></td></tr></table></figure>
 
@@ -169,7 +169,7 @@
 
 <h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">1) If an error message appears saying that like this:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">   FileNotFoundError: [Errno 2] No such file or directory: <span class="string">&#x27;version.py&#x27;</span>,</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	 just copy it from another directory to this directory.</span></span><br><span class="line">cp /data1/tmp/soft/omniCLIP/version.py  yourPath/omniCLIP-0.2.0-py3.8-linux-x86_64.egg/omniCLIP/</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">2) <span class="keyword">if</span> a error shows:</span> </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	 File <span class="string">&quot;yourPath/omniCLIP/data_parsing/ParsingArgs.py&quot;</span>, line 44, <span class="keyword">in</span> parsing_argparse</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">   NameError: name <span class="string">&#x27;verifying_args&#x27;</span> is not defined</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">	Just vim into ParsingArgs.py and comment out or delete this line of verifying_args : like picture</span></span><br></pre></td></tr></table></figure>
 
-<img src="/.cn//09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/cafe8f28ebe46206d0d18799cab131c.png" class>
+<img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/cafe8f28ebe46206d0d18799cab131c.png" class>
 
 
 
@@ -187,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/" data-id="cm4sf3hd80001awvq1l16fy7m" data-title="Peak calling for CLIP-Seq data by omniCLIP" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/" data-id="cm4sfqqdj0001gwvq07ulcuqz" data-title="Peak calling for CLIP-Seq data by omniCLIP" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
