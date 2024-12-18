@@ -77,7 +77,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"www.lianganmin.cn","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"www.lianganmin.cn","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","app_key":"nP7HcwuLCrN0X4gly6iVDXVK","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -246,6 +246,15 @@
 
     
     
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
   </div>
 
 
@@ -308,8 +317,8 @@
 
 <p> <strong>b). mark UMI</strong></p>
 <p> I used the adapters-removed reads for a BLAST against the genome in flybase and found that there are always 10 unpaired  bases at the 5’ end of the reads. Therefore, I suspect these are the UMI, as shown in the figure below.</p>
-<p>​	<a href="mailto:&#114;&#101;&#x61;&#100;&#45;&#64;&#x53;&#x52;&#82;&#x35;&#52;&#56;&#48;&#x39;&#54;&#55;&#46;&#49;&#x31;">&#114;&#101;&#x61;&#100;&#45;&#64;&#x53;&#x52;&#82;&#x35;&#52;&#56;&#48;&#x39;&#54;&#55;&#46;&#49;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
-<p>​	<a href="mailto:&#114;&#101;&#x61;&#100;&#45;&#64;&#83;&#82;&#82;&#x35;&#x34;&#56;&#x30;&#57;&#54;&#x37;&#46;&#x32;&#49;&#56;">&#114;&#101;&#x61;&#100;&#45;&#64;&#83;&#82;&#82;&#x35;&#x34;&#56;&#x30;&#57;&#54;&#x37;&#46;&#x32;&#49;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
+<p>​	<a href="mailto:&#x72;&#101;&#x61;&#x64;&#45;&#64;&#x53;&#x52;&#x52;&#x35;&#x34;&#x38;&#48;&#57;&#x36;&#55;&#46;&#x31;&#49;">&#x72;&#101;&#x61;&#x64;&#45;&#64;&#x53;&#x52;&#x52;&#x35;&#x34;&#x38;&#48;&#57;&#x36;&#55;&#46;&#x31;&#49;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
+<p>​	<a href="mailto:&#114;&#101;&#97;&#100;&#45;&#x40;&#x53;&#x52;&#x52;&#53;&#x34;&#56;&#x30;&#x39;&#54;&#55;&#46;&#x32;&#x31;&#56;">&#114;&#101;&#97;&#100;&#45;&#x40;&#x53;&#x52;&#x52;&#53;&#x34;&#56;&#x30;&#x39;&#54;&#55;&#46;&#x32;&#x31;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
 <p><img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%202.png" srcset="/img/loading.gif" lazyload alt="reads blast 2"></p>
 <p>Next, I used the <strong>flexbar</strong> software to mark the UMIs in the reads.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cat &gt;  barcodes.fa   # create a file, with 10 N (length of UMI is 10 bp)<br><span class="hljs-meta prompt_">&gt;</span><span class="language-bash">umi</span><br>NNNNNNNNNN<br></code></pre></td></tr></table></figure>
@@ -445,6 +454,37 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","appKey":"nP7HcwuLCrN0X4gly6iVDXVK","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -685,6 +725,8 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
 
 
 
