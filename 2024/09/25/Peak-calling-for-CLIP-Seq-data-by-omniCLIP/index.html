@@ -19,19 +19,19 @@
   <meta name="author" content="An-min">
   <meta name="keywords" content="">
   
-    <meta name="description" content="———————————————————————————————————————————————————————————— 1. data preparation1.1). dataGSE98188 from paper :    Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by">
+    <meta name="description" content="Peak calling for CLIP-Seq data by omniCLIP———————————— 1. data preparation1.1). dataGSE98188 from paper :    Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by contr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Peak calling for CLIP-Seq data by omniCLIP">
 <meta property="og:url" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/index.html">
 <meta property="og:site_name" content="Jiang A-sheng">
-<meta property="og:description" content="———————————————————————————————————————————————————————————— 1. data preparation1.1). dataGSE98188 from paper :    Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by">
+<meta property="og:description" content="Peak calling for CLIP-Seq data by omniCLIP———————————— 1. data preparation1.1). dataGSE98188 from paper :    Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by contr">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/remove%20adapter.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%202.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/debug.png">
 <meta property="article:published_time" content="2024-09-25T15:18:32.000Z">
-<meta property="article:modified_time" content="2024-12-17T13:35:05.596Z">
+<meta property="article:modified_time" content="2024-12-18T08:02:32.136Z">
 <meta property="article:author" content="An-min">
 <meta property="article:tag" content="Bioinformatic">
 <meta name="twitter:card" content="summary_large_image">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          452 words
+          454 words
         
       </span>
     
@@ -281,7 +281,7 @@
             
               <div class="markdown-body">
                 
-                <p><strong>————————————————————————————————————————————————————————————</strong></p>
+                <h3 id="Peak-calling-for-CLIP-Seq-data-by-omniCLIP"><a href="#Peak-calling-for-CLIP-Seq-data-by-omniCLIP" class="headerlink" title="Peak calling for CLIP-Seq data by omniCLIP"></a>Peak calling for CLIP-Seq data by omniCLIP</h3><p><strong>————————————</strong></p>
 <h2 id="1-data-preparation"><a href="#1-data-preparation" class="headerlink" title="1. data preparation"></a>1. data preparation</h2><h4 id="1-1-data"><a href="#1-1-data" class="headerlink" title="1.1). data"></a>1.1). data</h4><p><strong>GSE98188</strong> from paper : </p>
 <p>  Drosophila Sister-of-Sex-lethal reinforces a male-specific gene expression pattern by controlling Sex-lethal alternative splicing.  </p>
 <p>  <em>Nucleic Acids Res</em> 2019</p>
@@ -308,8 +308,8 @@
 
 <p> <strong>b). mark UMI</strong></p>
 <p> I used the adapters-removed reads for a BLAST against the genome in flybase and found that there are always 10 unpaired  bases at the 5’ end of the reads. Therefore, I suspect these are the UMI, as shown in the figure below.</p>
-<p>​	<a href="mailto:&#x72;&#x65;&#97;&#x64;&#x2d;&#x40;&#x53;&#82;&#x52;&#x35;&#52;&#56;&#x30;&#x39;&#54;&#55;&#x2e;&#49;&#x31;">&#x72;&#x65;&#97;&#x64;&#x2d;&#x40;&#x53;&#82;&#x52;&#x35;&#52;&#56;&#x30;&#x39;&#54;&#55;&#x2e;&#49;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
-<p>​	<a href="mailto:&#x72;&#101;&#x61;&#100;&#45;&#64;&#x53;&#x52;&#x52;&#x35;&#52;&#56;&#x30;&#57;&#x36;&#55;&#46;&#x32;&#x31;&#56;">&#x72;&#101;&#x61;&#100;&#45;&#64;&#x53;&#x52;&#x52;&#x35;&#52;&#56;&#x30;&#57;&#x36;&#55;&#46;&#x32;&#x31;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
+<p>​	<a href="mailto:&#x72;&#x65;&#97;&#100;&#x2d;&#x40;&#83;&#x52;&#82;&#53;&#52;&#56;&#48;&#x39;&#x36;&#55;&#x2e;&#x31;&#49;">&#x72;&#x65;&#97;&#100;&#x2d;&#x40;&#83;&#x52;&#82;&#53;&#52;&#56;&#48;&#x39;&#x36;&#55;&#x2e;&#x31;&#49;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
+<p>​	<a href="mailto:&#114;&#101;&#x61;&#x64;&#45;&#x40;&#83;&#x52;&#x52;&#x35;&#x34;&#x38;&#48;&#57;&#54;&#55;&#46;&#50;&#49;&#x38;">&#114;&#101;&#x61;&#x64;&#45;&#x40;&#83;&#x52;&#x52;&#x35;&#x34;&#x38;&#48;&#57;&#54;&#55;&#46;&#50;&#49;&#x38;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
 <p><img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%202.png" srcset="/img/loading.gif" lazyload alt="reads blast 2"></p>
 <p>Next, I used the <strong>flexbar</strong> software to mark the UMIs in the reads.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cat &gt;  barcodes.fa   # create a file, with 10 N (length of UMI is 10 bp)<br><span class="hljs-meta prompt_">&gt;</span><span class="language-bash">umi</span><br>NNNNNNNNNN<br></code></pre></td></tr></table></figure>
