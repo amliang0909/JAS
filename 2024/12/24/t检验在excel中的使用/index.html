@@ -19,20 +19,20 @@
   <meta name="author" content="An-min">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在excel表格中做t.test()的基础了解. 在Excel中对两组数据做差异显著性检验是我们经常会用到的方法，多数使用者都理解并熟练其原理和使用方法的，但可能也有少数人，尽管会用各种软件来做差异性检验，但对其背后的数理并不完全清楚，比如说我自己。前段几天有人问到我，我支支吾吾给讲了个大概，发现自己好多细节并不清楚，后来经过搜索文章后，我才大致有一个相对清晰的认识，现在我把它写下来，以供诸君参考">
+    <meta name="description" content="T检验在excel中的使用. 在Excel中对两组数据做差异显著性检验是我们经常会用到的方法，多数使用者都理解并熟练其原理和使用方法的，但可能也有少数人，尽管会用各种软件来做差异性检验，但对其背后的数理并不完全清楚，比如说我自己。前段几天有人问到我，我支支吾吾给讲了个大概，发现自己好多细节并不清楚，后来经过搜索文章后，我才大致有一个相对清晰的认识，现在我把它写下来，以供诸君参考。 差异显著性检验是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在excel表格中做t.test()的基础了解">
+<meta property="og:title" content="T检验在excel中的使用">
 <meta property="og:url" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Liang An-Min">
-<meta property="og:description" content="在excel表格中做t.test()的基础了解. 在Excel中对两组数据做差异显著性检验是我们经常会用到的方法，多数使用者都理解并熟练其原理和使用方法的，但可能也有少数人，尽管会用各种软件来做差异性检验，但对其背后的数理并不完全清楚，比如说我自己。前段几天有人问到我，我支支吾吾给讲了个大概，发现自己好多细节并不清楚，后来经过搜索文章后，我才大致有一个相对清晰的认识，现在我把它写下来，以供诸君参考">
+<meta property="og:description" content="T检验在excel中的使用. 在Excel中对两组数据做差异显著性检验是我们经常会用到的方法，多数使用者都理解并熟练其原理和使用方法的，但可能也有少数人，尽管会用各种软件来做差异性检验，但对其背后的数理并不完全清楚，比如说我自己。前段几天有人问到我，我支支吾吾给讲了个大概，发现自己好多细节并不清楚，后来经过搜索文章后，我才大致有一个相对清晰的认识，现在我把它写下来，以供诸君参考。 差异显著性检验是">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/input_data%201.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/Tails.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/Type.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/12/24/t%E6%A3%80%E9%AA%8C%E5%9C%A8excel%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/input_data%202.png">
-<meta property="article:published_time" content="2024-12-24T15:18:32.000Z">
-<meta property="article:modified_time" content="2024-12-25T04:40:51.402Z">
+<meta property="article:published_time" content="2024-12-24T15:01:00.000Z">
+<meta property="article:modified_time" content="2024-12-25T05:44:31.743Z">
 <meta property="article:author" content="An-min">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary_large_image">
@@ -40,7 +40,7 @@
   
   
   
-  <title>在excel表格中做t.test()的基础了解 - Liang An-Min</title>
+  <title>T检验在excel中的使用 - Liang An-Min</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -219,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="在excel表格中做t.test()的基础了解"></span>
+            <span id="subtitle" data-typed-text="T检验在excel中的使用"></span>
           
         </div>
 
@@ -230,7 +230,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-24 23:18" pubdate>
+        <time datetime="2024-12-24 23:01" pubdate>
           December 24, 2024 pm
         </time>
       </span>
@@ -299,12 +299,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">在excel表格中做t.test()的基础了解</h1>
+            <h1 id="seo-header">T检验在excel中的使用</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="在excel表格中做t-test-的基础了解"><a href="#在excel表格中做t-test-的基础了解" class="headerlink" title="在excel表格中做t.test()的基础了解"></a>在excel表格中做t.test()的基础了解</h3><p>.</p>
+                <h3 id="T检验在excel中的使用"><a href="#T检验在excel中的使用" class="headerlink" title="T检验在excel中的使用"></a>T检验在excel中的使用</h3><p>.</p>
 <p>在Excel中对两组数据做差异显著性检验是我们经常会用到的方法，多数使用者都理解并熟练其原理和使用方法的，但可能也有少数人，尽管会用各种软件来做差异性检验，但对其背后的数理并不完全清楚，比如说我自己。前段几天有人问到我，我支支吾吾给讲了个大概，发现自己好多细节并不清楚，后来经过搜索文章后，我才大致有一个相对清晰的认识，现在我把它写下来，以供诸君参考。</p>
 <p>差异显著性检验是统计假设检验的一种，用于比较两组或多组数据之间的差异是否显著。它有好几种类型，包括t检验，u检验，卡方检验以及方差分析等，我们这里只讨论t检验。</p>
 <p>但在讲述t检验之前，我们需要先了解中心极限定理，小概率事件等概念做一个简单的回顾复习，这会更好地帮助我们理解差异显著性检验背后的逻辑。</p>
@@ -379,7 +379,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在excel表格中做t.test()的基础了解</div>
+      <div>T检验在excel中的使用</div>
       <div>https://www.lianganmin.cn/2024/12/24/t检验在excel中的使用/</div>
     </div>
     <div class="license-meta">
