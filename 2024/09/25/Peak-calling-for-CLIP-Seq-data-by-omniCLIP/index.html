@@ -19,12 +19,12 @@
   <meta name="author" content="An-min">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Peak calling for CLIP-Seq data by omniCLIP [1]. The diagram below illustrates the algorithmic principles of omniCLIP.This paper ( Philipp et. al. 2018,Genome biology)  employ a Non-Homogeneous Hidden">
+    <meta name="description" content="Peak calling for CLIP-Seq data by omniCLIP [1]. I have skimmed through the article about the omniCLIP software, and now I will provide a brief explanation of its computational principles and algorithm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Peak calling for CLIP-Seq data by omniCLIP [1]">
 <meta property="og:url" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/index.html">
 <meta property="og:site_name" content="Liang An-Min">
-<meta property="og:description" content="Peak calling for CLIP-Seq data by omniCLIP [1]. The diagram below illustrates the algorithmic principles of omniCLIP.This paper ( Philipp et. al. 2018,Genome biology)  employ a Non-Homogeneous Hidden">
+<meta property="og:description" content="Peak calling for CLIP-Seq data by omniCLIP [1]. I have skimmed through the article about the omniCLIP software, and now I will provide a brief explanation of its computational principles and algorithm">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/Illustration%20of%20omniCLIP%20peak%20calling%20.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/remove%20adapter.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%202.png">
 <meta property="og:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/debug.png">
 <meta property="article:published_time" content="2024-09-25T15:18:32.000Z">
-<meta property="article:modified_time" content="2024-12-31T02:33:59.573Z">
+<meta property="article:modified_time" content="2024-12-31T02:46:10.603Z">
 <meta property="article:author" content="An-min">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.lianganmin.cn/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/Illustration%20of%20omniCLIP%20peak%20calling%20.png">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          490 words
+          494 words
         
       </span>
     
@@ -304,10 +304,11 @@
               <div class="markdown-body">
                 
                 <h3 id="Peak-calling-for-CLIP-Seq-data-by-omniCLIP-1"><a href="#Peak-calling-for-CLIP-Seq-data-by-omniCLIP-1" class="headerlink" title="Peak calling for CLIP-Seq data by omniCLIP [1]"></a>Peak calling for CLIP-Seq data by omniCLIP [1]</h3><p>.</p>
-<h5 id="The-diagram-below-illustrates-the-algorithmic-principles-of-omniCLIP"><a href="#The-diagram-below-illustrates-the-algorithmic-principles-of-omniCLIP" class="headerlink" title="The diagram below illustrates the algorithmic principles of omniCLIP."></a>The diagram below illustrates the algorithmic principles of omniCLIP.</h5><p>This paper ( Philipp et. al. 2018,Genome biology)  employ a Non-Homogeneous Hidden Markov Model to segment the genome into peaks and non-peaks. The emission probability of the NHMM is given by the product of the joint probability of the coverage and the probability of the observed diagnostic event frequency in all replicate CLIP and background libraries.</p>
+<p>I have skimmed through the article about the omniCLIP software, and now I will provide a brief explanation of its computational principles and algorithm.</p>
+<p>This paper ( Philipp et. al. 2018,Genome biology)  employ a Non-Homogeneous Hidden Markov Model (NHMM) to segment the genome into peaks and non-peaks. The emission probability of the NHMM is given by the product of the joint probability of the coverage and the probability of the observed diagnostic event frequency in all replicate CLIP and background libraries.</p>
 <p>And a Negative Binomial based Generalized Linear Model (that models both confounding by the gene expression, and confounding of local effects and also allows to account for excess variance) are used to model the reads coverage.</p>
 <p>Besides, the diagnostic events are modeled using a Dirichlet-Multinomial mixture model. The transition probabilities of the model are based on a logistic function that depends on the coverage. </p>
-<p><img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/Illustration%20of%20omniCLIP%20peak%20calling%20.png" srcset="/img/loading.gif" lazyload alt="Illustration of omniCLIP peak calling "></p>
+<h5 id="The-diagram-below-illustrates-the-algorithmic-of-omniCLIP"><a href="#The-diagram-below-illustrates-the-algorithmic-of-omniCLIP" class="headerlink" title="The diagram below illustrates the algorithmic of omniCLIP."></a>The diagram below illustrates the algorithmic of omniCLIP.</h5><p><img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/Illustration%20of%20omniCLIP%20peak%20calling%20.png" srcset="/img/loading.gif" lazyload alt="Illustration of omniCLIP peak calling "></p>
 <p>show on the (left) is peak calling for a lowly expressed genes with strong RNA binding protein (RBP) RNA-binding and on the (right) a highly expressed gene with weak RBP RNA-binding. During peak calling, local background coverage is taken into account to correct for confounding by local effects or biases. Furthermore, overall the RNA abundance is estimated and accounted for. This allows better ranking peaks with identical local coverage by sharing of information along the transcript, as illustrated for the leftmost peaks in both genes.  </p>
 <hr>
 <h3 id="1-data-preparation"><a href="#1-data-preparation" class="headerlink" title="1. data preparation"></a>1. data preparation</h3><h4 id="1-1-data"><a href="#1-1-data" class="headerlink" title="1.1). data"></a>1.1). data</h4><p><strong>GSE98188</strong> from paper : </p>
@@ -336,8 +337,8 @@
 
 <p> <strong>b). mark UMI</strong></p>
 <p> I used the adapters-removed reads for a BLAST against the genome in flybase and found that there are always 10 unpaired  bases at the 5’ end of the reads. Therefore, I suspect these are the UMI, as shown in the figure below.</p>
-<p>​	<a href="mailto:&#x72;&#x65;&#97;&#100;&#x2d;&#x40;&#83;&#x52;&#82;&#53;&#x34;&#x38;&#48;&#57;&#54;&#x37;&#x2e;&#x31;&#x31;">&#x72;&#x65;&#97;&#100;&#x2d;&#x40;&#83;&#x52;&#82;&#53;&#x34;&#x38;&#48;&#57;&#54;&#x37;&#x2e;&#x31;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
-<p>​	<a href="mailto:&#x72;&#x65;&#x61;&#100;&#x2d;&#64;&#x53;&#x52;&#x52;&#x35;&#x34;&#x38;&#x30;&#57;&#54;&#55;&#46;&#x32;&#49;&#x38;">&#x72;&#x65;&#x61;&#100;&#x2d;&#64;&#x53;&#x52;&#x52;&#x35;&#x34;&#x38;&#x30;&#57;&#54;&#55;&#46;&#x32;&#49;&#x38;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
+<p>​	<a href="mailto:&#114;&#x65;&#97;&#x64;&#x2d;&#x40;&#x53;&#x52;&#82;&#53;&#x34;&#x38;&#48;&#x39;&#x36;&#x37;&#46;&#49;&#x31;">&#114;&#x65;&#97;&#x64;&#x2d;&#x40;&#x53;&#x52;&#82;&#53;&#x34;&#x38;&#48;&#x39;&#x36;&#x37;&#46;&#49;&#x31;</a> 11&#x2F;1   length &#x3D; 53 bp       <img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%201.png" srcset="/img/loading.gif" lazyload alt="reads blast 1">                         </p>
+<p>​	<a href="mailto:&#114;&#101;&#97;&#x64;&#x2d;&#64;&#x53;&#82;&#x52;&#x35;&#52;&#56;&#x30;&#57;&#x36;&#x37;&#46;&#x32;&#49;&#56;">&#114;&#101;&#97;&#x64;&#x2d;&#64;&#x53;&#82;&#x52;&#x35;&#52;&#56;&#x30;&#57;&#x36;&#x37;&#46;&#x32;&#49;&#56;</a> 218&#x2F;1   length &#x3D; 51 bp</p>
 <p><img src="/2024/09/25/Peak-calling-for-CLIP-Seq-data-by-omniCLIP/reads%20blast%202.png" srcset="/img/loading.gif" lazyload alt="reads blast 2"></p>
 <p>Next, I used the <strong>flexbar</strong> software to mark the UMIs in the reads.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cat &gt;  barcodes.fa   # create a file, with 10 N (length of UMI is 10 bp)<br><span class="hljs-meta prompt_">&gt;</span><span class="language-bash">umi</span><br>NNNNNNNNNN<br></code></pre></td></tr></table></figure>
