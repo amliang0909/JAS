@@ -1,0 +1,798 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="An-min">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SUPPA2 for alternative splicing. SUPPA2 is a fast, accurate, and uncertainty-aware for differential splicing analysis across multiple conditions. SUPPA2 uses transcript quantification to compute inclu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUPPA2 for alternative splicing">
+<meta property="og:url" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/index.html">
+<meta property="og:site_name" content="Liang An-Min">
+<meta property="og:description" content="SUPPA2 for alternative splicing. SUPPA2 is a fast, accurate, and uncertainty-aware for differential splicing analysis across multiple conditions. SUPPA2 uses transcript quantification to compute inclu">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/1.events.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/2.salmon_index.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/2.index.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/3.salmon_out.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/4.pisPerEvent.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/4.pisPerEvent_2.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/5.diffSplice.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/7.psiPerIsoform.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/8.diffsplice.iso.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/dmel-all-r6.44.isoforms.ioi.png">
+<meta property="article:published_time" content="2025-03-30T11:50:39.000Z">
+<meta property="article:modified_time" content="2025-03-30T15:03:27.842Z">
+<meta property="article:author" content="An-min">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/1.events.png">
+  
+  
+  
+  <title>SUPPA2 for alternative splicing - Liang An-Min</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.lianganmin.cn","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","app_key":"nP7HcwuLCrN0X4gly6iVDXVK","server_url":null,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Liang An-Min</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Gallery/" target="_self">
+                <i class="iconfont icon-Gallery-fill"></i>
+                <span>Gallery</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SUPPA2 for alternative splicing"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        An-min
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-30 19:50" pubdate>
+          March 30, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          634 words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SUPPA2 for alternative splicing</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="SUPPA2-for-alternative-splicing"><a href="#SUPPA2-for-alternative-splicing" class="headerlink" title="SUPPA2 for alternative splicing"></a>SUPPA2 for alternative splicing</h3><p>.</p>
+<p>SUPPA2 is a fast, accurate, and uncertainty-aware for differential splicing analysis across multiple conditions.</p>
+<p>SUPPA2 uses transcript quantification to compute inclusion values (PSI) of alternative splicing events across multiple samples.</p>
+<p><a target="_blank" rel="noopener" href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-018-1417-1">https://genomebiology.biomedcentral.com/articles/10.1186/s13059-018-1417-1</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">1.generateEvents.sh</span><br>python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py  generateEvents -i ../../dmel-all-r6.44.gtf  -l 24 -o dm6 -e SE SS MX RI FL -f ioe<br>awk &#x27;FNR==1 &amp;&amp; NR!=1 &#123; while (/^&lt;header&gt;/) getline; &#125; 1 &#123;print&#125;&#x27; *.ioe &gt; dmel-all-r6.44.all.events.ioe<br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/1.events.png" srcset="/img/loading.gif" lazyload alt="1.events"></p>
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/2.salmon_index.png" srcset="/img/loading.gif" lazyload alt="2.salmon_index"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">2.salmon.sh</span><br>wget -c https://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.44_FB2022_01/fasta/dmel-all-transcript-r6.44.fasta.gz # loaddown transcript seq fasta<br>source activate py2<br>salmon index -t dmel-all-transcript-r6.44.fasta  -i index <br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/2.index.png" srcset="/img/loading.gif" lazyload alt="2.index"></p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">fasta.gz</span> <br>ln -s/data1/amliang/projects/sxl_DC/220418_Sxl.vel_RNA_Seq/rawdata/cleandata/*gz ./<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">3.salmon.quatil.sh</span><br>source activate py2<br><br>index=/data1/amliang/projects/sxl_DC/220418_Sxl.vel_RNA_Seq/SUPPA2/salmon_index/index/<br>ls *gz|cut -d&quot;_&quot; -f 1|sort -u |while read id;do<br>salmon quant -i $index -l ISF --gcBias -1 $&#123;id&#125;_1.fq.gz -2 $&#123;id&#125;_2.fq.gz -p 2  -o ./$&#123;id&#125;_output 1&gt;$&#123;id&#125;_salmon.log 2&gt;&amp;1 &amp;<br> done<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash">python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/multipleFieldSelection.py -i *_output/quant.sf -k 1 -f 4 -o iso_tpm.txt</span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-built_in">mkdir</span> merge_quant</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-built_in">cd</span> merge_quant</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-built_in">ln</span> -s ../*quant.sf ./</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">conda deactivate</span> <br><span class="hljs-meta prompt_">#</span><span class="language-bash">python /data1/amliang/python_prj/merge.TPM.py WT1_quant.sf WT2_quant.sf WT3_quant.sf Sxl1_quant.sf Sxl2_quant.sf Sxl3_quant.sf  merge_quant.txt</span><br><br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/3.salmon_out.png" srcset="/img/loading.gif" lazyload alt="3.salmon_out"></p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">4.psiPerEvent.sh</span><br>ln -s ../3.salmon_out/merge_quant/merge_quant.txt ./<br>ln -s ../3.salmon_out/iso_tpm.txt ./<br>ln -s ../1.events/dmel-all-r6.44.all.events.ioe ./<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash">python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py psiPerEvent -i dmel-all-r6.44.all.events.ioe -e iso_tpm.txt -o project_events_1 1&gt;psiPerEvent_log_1.txt 2&gt;&amp;1</span><br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/4.pisPerEvent.png" srcset="/img/loading.gif" lazyload alt="4.pisPerEvent"></p>
+<p>.</p>
+<p>less project_event_1.psi</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/4.pisPerEvent_2.png" srcset="/img/loading.gif" lazyload alt="4.pisPerEvent_2"></p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">5.diffSplice.sh</span><br><br>ln -s ../1.events/dmel-all-r6.44.all.events.ioe ./<br>ln -s ../3.salmon_out/iso_tpm.txt ./<br>ln -s ../4.psiPerEvent/project_events_1.psi ./<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash"><span class="hljs-built_in">cut</span> -f 1-4 project_events_1.psi &gt; Sxl.psi</span><br>cut -f 1-4 iso_tpm.txt &gt; Sxl.tpm<br><br>cut -f 1,5-7 project_events_1.psi &gt; WT.psi<br>cut -f 1,5-7 iso_tpm.txt &gt; WT.tpm<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash"><span class="hljs-comment">#</span></span><br>python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py diffSplice -m empirical -gc -i dmel-all-r6.44.all.events.ioe --save_tpm_events -p WT.psi Sxl.psi -e WT.tpm Sxl.tpm -o project_diffSplice <br><br>cat project_diffSplice.dpsi|perl -alne &#x27;&#123;print if $F[2] &lt;0.05&#125;&#x27; |less<br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/5.diffSplice.png" srcset="/img/loading.gif" lazyload alt="5.diffSplice"></p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">6.generate.isoform.sh</span><br>python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py  generateEvents -i ../../dmel-all-r6.44.gtf -f ioi -o dmel-all-r6.44.isoforms<br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">7.psiPerIsoform.sh</span><br><br>ln -s ../6.generate.isoform/dmel-all-r6.44.isoforms.ioi ./<br>ln -s ../3.salmon_out/iso_tpm.txt ./<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash">python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py  psiPerIsoform -g ../../dmel-all-r6.44.gtf -e iso_tpm.txt -o iso</span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash">awk -v OFS=<span class="hljs-string">&#x27;\t&#x27;</span> <span class="hljs-string">&#x27;&#123;if (NR == 1) &#123;print $1,$2,$3&#125; else &#123;print $1,$2,$3,$4&#125;&#125;&#x27;</span> iso_isoform.psi &gt; Sxl_iso.psi</span><br>awk -v OFS=&#x27;\t&#x27; &#x27;&#123;if (NR == 1) &#123;print $4,$5,$6&#125; else &#123;print $1,$5,$6,$7&#125;&#125;&#x27; iso_isoform.psi &gt; WT_iso.psi<br><br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/7.psiPerIsoform.png" srcset="/img/loading.gif" lazyload alt="7.psiPerIsoform"></p>
+<p>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">8.diffSplice.iso.sh</span><br><br>ln -s ../5.diffSplice/WT.tpm ./<br>ln -s ../5.diffSplice/Sxl.tpm ./<br>ln -s ../7.psiPerIsoform/dmel-all-r6.44.isoforms.ioi ./<br>ln -s ../7.psiPerIsoform/iso_isoform.psi ./<br>ln -s ../7.psiPerIsoform/Sxl_iso.psi ./<br>ln -s ../7.psiPerIsoform/WT_iso.psi ./<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash">python3 /data1/amliang/home/biosoft/SUPPA/SUPPA-2.3/suppa.py  diffSplice -m empirical -gc -i dmel-all-r6.44.isoforms.ioi  -p WT_iso.psi Sxl_iso.psi -e  WT.tpm Sxl.tpm -o S2_diffSplice_iso</span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash"></span><br><span class="language-bash"><span class="hljs-built_in">cat</span> S2_diffSplice_iso.dpsi|perl -alne <span class="hljs-string">&#x27;&#123;print if $F[2] &lt;0.01&#125;&#x27;</span> | less</span><br><br></code></pre></td></tr></table></figure>
+
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/8.diffsplice.iso.png" srcset="/img/loading.gif" lazyload alt="8.diffsplice.iso"></p>
+<p>.</p>
+<p><img src="/2025/03/30/20250329-SUPPA2-for-alternative-splicing/dmel-all-r6.44.isoforms.ioi.png" srcset="/img/loading.gif" lazyload alt="dmel-all-r6.44.isoforms.ioi"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs R">setwd<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;E:/220625_PC/R workplace/220320_SXL/202404_Fig/240726_SUPPA2.AS/S2/&quot;</span><span class="hljs-punctuation">)</span><br>suppa_AS <span class="hljs-operator">&lt;-</span> read.table<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;project_diffSplice.dpsi&quot;</span><span class="hljs-punctuation">,</span>header <span class="hljs-operator">=</span> <span class="hljs-built_in">T</span><span class="hljs-punctuation">,</span>sep <span class="hljs-operator">=</span> <span class="hljs-string">&quot;\t&quot;</span><span class="hljs-punctuation">)</span><br>suppa_AS<span class="hljs-operator">$</span>ID <span class="hljs-operator">&lt;-</span> rownames<span class="hljs-punctuation">(</span>suppa_AS<span class="hljs-punctuation">)</span><br>suppa_AS <span class="hljs-operator">&lt;-</span> suppa_AS<span class="hljs-punctuation">[</span>suppa_AS<span class="hljs-operator">$</span>WT.Sxl_p.val <span class="hljs-operator">&lt;</span> <span class="hljs-number">0.05</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>suppa_AS<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span> str_split<span class="hljs-punctuation">(</span>suppa_AS<span class="hljs-operator">$</span>ID<span class="hljs-punctuation">,</span><span class="hljs-string">&quot;\\;&quot;</span><span class="hljs-punctuation">,</span>simplify <span class="hljs-operator">=</span> <span class="hljs-built_in">T</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-number">1</span><span class="hljs-punctuation">]</span><br><br>write.csv<span class="hljs-punctuation">(</span>suppa_AS<span class="hljs-punctuation">,</span>file <span class="hljs-operator">=</span> <span class="hljs-string">&quot;suppa_AS.csv&quot;</span><span class="hljs-punctuation">)</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Bioinformatic/" class="category-chain-item">Bioinformatic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SUPPA2 for alternative splicing</div>
+      <div>https://www.lianganmin.cn/2025/03/30/20250329-SUPPA2-for-alternative-splicing/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>An-min</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>March 30, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/27/20250327-rmasts2sashimiplot-for-AS-events/" title="rmasts2sashimiplot for AS-events">
+                        <span class="hidden-mobile">rmasts2sashimiplot for AS-events</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","appKey":"nP7HcwuLCrN0X4gly6iVDXVK","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
