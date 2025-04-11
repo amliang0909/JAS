@@ -109,4 +109,4 @@ deploy:
   type: git
   repository: git@github.com:amliang0909/JAS.git
   branch: main
-  
+  repo: https://${{ secrets.GH_TOKEN }}@github.com/amliang0909/JAS.git
