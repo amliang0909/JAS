@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="An-min">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Ribo-Seq analysis for mRNA translation. we use Ribo-Seq in combination with RNA-Seq data to investigate the sig. differential translation genes in transcriptome by condition. 1.  Data prepare1.1  veri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Differential translation gene by RiboSeq">
+<meta property="og:url" content="https://www.lianganmin.cn/2025/01/02/differential-translation-gene-by-RiboSeq/index.html">
+<meta property="og:site_name" content="Liang An-Min">
+<meta property="og:description" content="Ribo-Seq analysis for mRNA translation. we use Ribo-Seq in combination with RNA-Seq data to investigate the sig. differential translation genes in transcriptome by condition. 1.  Data prepare1.1  veri">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-01-02T13:38:15.000Z">
+<meta property="article:modified_time" content="2025-01-04T17:33:51.872Z">
+<meta property="article:author" content="An-min">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Differential translation gene by RiboSeq - Liang An-Min</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.lianganmin.cn","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","app_key":"nP7HcwuLCrN0X4gly6iVDXVK","server_url":null,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Liang An-Min</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Gallery/" target="_self">
+                <i class="iconfont icon-Gallery-fill"></i>
+                <span>Gallery</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Differential translation gene by RiboSeq"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        An-min
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-02 21:38" pubdate>
+          January 2, 2025 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Differential translation gene by RiboSeq</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="Ribo-Seq-analysis-for-mRNA-translation"><a href="#Ribo-Seq-analysis-for-mRNA-translation" class="headerlink" title="Ribo-Seq analysis for mRNA translation"></a>Ribo-Seq analysis for mRNA translation</h3><p>.</p>
+<p>we use Ribo-Seq in combination with RNA-Seq data to investigate the sig. differential translation genes in transcriptome by condition.</p>
+<h4 id="1-Data-prepare"><a href="#1-Data-prepare" class="headerlink" title="1.  Data prepare"></a>1.  Data prepare</h4><h6 id="1-1-verify-the-integrity-of-raw-sequence-data"><a href="#1-1-verify-the-integrity-of-raw-sequence-data" class="headerlink" title="1.1  verify the integrity of raw sequence data"></a>1.1  verify the integrity of raw sequence data</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ls *fastq.gz | xargs  md5sum &gt; md5.lam.txt<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="1-2-quality-control"><a href="#1-2-quality-control" class="headerlink" title="1.2  quality control"></a>1.2  quality control</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir qc_raw &amp;&amp; cd qc_raw<br>source activate rnaseq<br>ls ../*.gz | xargs fastqc -o ./<br>conda deactivate<br><br></code></pre></td></tr></table></figure>
+
+<h5 id><a href="#" class="headerlink" title></a></h5><h6 id="1-3-adapter-trimming"><a href="#1-3-adapter-trimming" class="headerlink" title="1.3  adapter trimming"></a>1.3  adapter trimming</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir clean.SE &amp;&amp; cd clean.SE<br>source activate rnaseq<br>dir=&#x27;/data1/amliang/projects/sxl_DC/2308_RiboSeq/231221_Ribo_S2/rawdata/clean.SE&#x27;<br>trim_galore -q 25 --phred33 -a AAAAAAAAAA  --clip_R1 4  --length 20  -e 0.1 --stringency 3  -o $dir   ../*.R1.fastq.gz <br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">&amp;&amp; and QC</span> <br>mkdir qc_clean.SE &amp;&amp; cd qc_clean.SE<br>ls ../clean.SE/*.gz | xargs fastqc -o ./<br>conda deactivate<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-remove-rRNA"><a href="#2-remove-rRNA" class="headerlink" title="2. remove rRNA"></a>2. remove rRNA</h4><h6 id="2-1-download-rRNA-fasta"><a href="#2-1-download-rRNA-fasta" class="headerlink" title="2.1 download rRNA fasta"></a>2.1 download rRNA fasta</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs shell">wget -c https://ftp.ncbi.nlm.nih.gov/genomes/refseq/invertebrate/Drosophila_melanogaster/latest_assembly_versions/GCF_000001215.4_Release_6_plus_ISO1_MT/GCF_000001215.4_Release_6_plus_ISO1_MT_rna_from_genomic.fna.gz<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">rRNA index building</span><br>less GCF_000001215.4_Release_6_plus_ISO1_MT_rna_from_genomic.fna.gz | grep &quot;^&gt;&quot; | grep &quot;gbkey=rRNA&quot; | awk &#x27;&#123;print $1&#125;&#x27;|sed &#x27;s/&gt;//g&#x27; &gt; id.rRNA.list<br>source activate py2<br>seqkit grep -f id.rRNA.list  GCF_000001215.4_Release_6_plus_ISO1_MT_rna_from_genomic.fna.gz  &gt; rRNA.fa<br><br>mkdir rRNA &amp;&amp; cd rRNA <br>bowtie2-build ../rRNA.fa  rRNA<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">tRNA index building</span><br>less GCF_000001215.4_Release_6_plus_ISO1_MT_rna_from_genomic.fna.gz | grep &quot;^&gt;&quot; | grep &quot;gbkey=tRNA&quot; | awk &#x27;&#123;print $1&#125;&#x27;|sed &#x27;s/&gt;//g&#x27; &gt; id.tRNA.list<br>source activate py2<br>seqkit grep -f id.tRNA.list  GCF_000001215.4_Release_6_plus_ISO1_MT_rna_from_genomic.fna.gz  &gt; tRNA.fa<br><br>mkdir tRNA &amp;&amp; cd tRNA <br>bowtie2-build ../tRNA.fa  rRNA<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="2-2-remove-rRNA-and-tRNA"><a href="#2-2-remove-rRNA-and-tRNA" class="headerlink" title="2.2 remove rRNA and tRNA"></a>2.2 remove rRNA and tRNA</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">remove rRNA by mapping reads to rRNA</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">save reads <span class="hljs-built_in">which</span> unmapped as non_rRNA reads</span><br>mkdir rm.rRNA &amp;&amp; cd rm.rRNA<br>ln -s ../clean.SE/*gz ./<br><br>source activate rnaseq<br>ls ./*.gz | while read id; do (echo $id &amp;&amp; bowtie2  -p 18  -x /data1/amliang/reference/rRNA/Drosophila.M/rRNA/rRNA --un-gz $(basename $&#123;id&#125; &quot;.fq.gz&quot;).rm.rRNA.fq.gz  -U $id  -S $(basename $&#123;id&#125; &quot;.fq.gz&quot;).rRNA.sam);done<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">remove rRNA by mapping reads to rRNA</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">save reads <span class="hljs-built_in">which</span> unmapped as non_rRNA reads</span><br>mkdir rm.tRNA &amp;&amp; cd rm.tRNA<br>ln -s ../rm.tRNA/*.rm.rRNA.fq.gz ./<br><br>ls ./*.rm.rRNA.fq.gz | while read id; do (echo $id &amp;&amp; bowtie2  -p 18  -x /data1/amliang/reference/rRNA/Drosophila.M/tRNA/tRNA --un-gz $(basename $&#123;id&#125; &quot;.rm.rRNA.fq.gz&quot;).rm.rRNA.tRNA.fq.gz  -U $id  -S $(basename $&#123;id&#125; &quot;.rm.rRNA.fq.gz&quot;).rRNA.tRNA.sam);done<br>conda deactivate<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="3-mapping-to-genome-read-counting"><a href="#3-mapping-to-genome-read-counting" class="headerlink" title="3. mapping to genome &amp; read counting"></a>3. mapping to genome &amp; read counting</h4><h6 id="3-1-mapping-to-genome"><a href="#3-1-mapping-to-genome" class="headerlink" title="3.1 mapping to genome"></a>3.1 mapping to genome</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">mapping</span><br>ln -s ../rm.tRNA/*rm.rRNA.tRNA.fq.gz<br>Ref_index=/data1/amliang/reference/index/star/flybase_m6/<br>Read_dir=./<br>Run_log=runlog.txt<br>GTF=/data1/amliang/annotation/fly/flyase/gtf/dmel-all-r6.31.gtf<br><span class="hljs-meta prompt_">#</span><span class="language-bash">input/output file</span> <br>for id in &#123;P1_L2_Q0023W0073,P2_L3_Q0013W0073,P3_L3_Q0028W0073,S4_L3_Q0016W0073,S5_L3_Q0014W0073,S6_L3_Q0021W0073&#125;;<br>do<br>Read=$&#123;Read_dir&#125;/$&#123;id&#125;.R1.rm.rRNA.tRNA.fq.gz<br>BAM=$&#123;id&#125;.bam<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">Cycle Running</span><br>STAR \<br>--runThreadN 10 \<br>--outFilterType BySJout \<br>--outFilterMismatchNmax 2 \<br>--outFilterMultimapNmax 1 \<br>--genomeDir $Ref_index \<br>--readFilesIn $Read \<br>--readFilesCommand zcat \<br>--outFileNamePrefix $&#123;id&#125;_ \<br>--outSAMtype BAM SortedByCoordinate \<br>--quantMode TranscriptomeSAM GeneCounts \<br>--outSAMattributes All \<br>--outSAMattrRGline ID:1 LB:ribo_seq PL:ILLUMINA SM:$&#123;id&#125; \<br>--outBAMcompression 6 \<br>--outReadsUnmapped Fastx<br>done<br>conda deactivate<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">sort</span> &amp; index</span><br>source activate chipseq<br>ls *.out.bam|while read id ;do (samtools sort -O bam  -T sorted -o $(basename $&#123;id&#125; &quot;.out.bam&quot;).sort.bam   $&#123;id&#125;);done<br><br>ls *.sort.bam | while read id ; do (samtools index $id); done<br>conda deactivate<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="3-2-CDS-reads-count"><a href="#3-2-CDS-reads-count" class="headerlink" title="3.2 CDS reads count"></a>3.2 CDS reads count</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">source activate rnaseq<br>featureCounts -T 16  -t CDS -g gene_id -a /data1/amliang/annotation/fly/Drosophila_melanogaster.BDGP6.22.42.gtf  -o  Ribo.CDS_count.a.txt  ./*.bam<br>conda deactivate<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-corresponding-RNA-Seq-data"><a href="#4-corresponding-RNA-Seq-data" class="headerlink" title="4. corresponding RNA-Seq data"></a>4. corresponding RNA-Seq data</h4><h6 id="4-1-mapping-to-genome"><a href="#4-1-mapping-to-genome" class="headerlink" title="4.1 mapping to genome"></a>4.1 mapping to genome</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">source activate rnaseq<br>Ref_index=/data1/amliang/reference/index/bowtie2/flybase_m6_bowtie2/<br>Read_dir=/data1/amliang/projects/sxl_DC/2308_RiboSeq/240108_RNASeq_S2/data<br>Run_log=runlog.txt<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">input/output file</span> <br>for id in &#123;P1_L2_UDI296,P2_L2_UDI297,P3_L2_UDI298,S4_L2_UDI299,S5_L2_UDI300,S6_L2_UDI301&#125;;<br>do<br>R1=$&#123;Read_dir&#125;/$&#123;id&#125;.R1.fastq.gz<br>R2=$&#123;Read_dir&#125;/$&#123;id&#125;.R2.fastq.gz<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">Cycle Running</span><br>bowtie2  -p 18 -N 0 -x $Ref_index/fly -1 $R1 -2 $R2 -S $&#123;id&#125;.sam 2&gt;&gt;$Run_log <br> <br>done<br>conda deactivate<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="4-1-mapping-to-genome-1"><a href="#4-1-mapping-to-genome-1" class="headerlink" title="4.1 mapping to genome"></a>4.1 mapping to genome</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">Note: reads_count <span class="hljs-keyword">for</span> CDS not exon</span><br><br>source activate rnaseq<br>featureCounts -T 16 -p -M -t CDS -g gene_id  -a /data1/amliang/annotation/fly/Drosophila_melanogaster.BDGP6.22.42.gtf  -o  RNASeq.CDS_count.txt  ../*.bam<br>conda deactivate<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="5-differential-translation"><a href="#5-differential-translation" class="headerlink" title="5. differential translation"></a>5. differential translation</h4><h6 id="5-1-expr-count"><a href="#5-1-expr-count" class="headerlink" title="5.1 expr. count"></a>5.1 expr. count</h6><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs R"><span class="hljs-comment">#Ribo</span><br>setwd<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;E://220625_PC/R workplace/220320_SXL/240115_tranlation/RiboSeq/featureCount_CDS_multi/&quot;</span><span class="hljs-punctuation">)</span><br>Ribo_count <span class="hljs-operator">&lt;-</span> read.table<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Ribo.CDS.multi_count.a.txt&quot;</span><span class="hljs-punctuation">,</span>header <span class="hljs-operator">=</span> <span class="hljs-built_in">T</span><span class="hljs-punctuation">)</span><br>rownames<span class="hljs-punctuation">(</span>Ribo_count<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span> Ribo_count<span class="hljs-operator">$</span>Geneid<br>colnames<span class="hljs-punctuation">(</span>Ribo_count<span class="hljs-punctuation">)</span><br>colnames<span class="hljs-punctuation">(</span>Ribo_count<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span> <span class="hljs-string">&quot;Geneid&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Chr&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Start&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;End&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Strand&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Length&quot;</span><span class="hljs-punctuation">,</span>                          <span class="hljs-string">&quot;WT_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;WT_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;WT_3&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;SXL_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;SXL_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;SXL_3&quot;</span><span class="hljs-punctuation">)</span><br>Ribo_exp <span class="hljs-operator">&lt;-</span> Ribo_count<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">7</span><span class="hljs-operator">:</span><span class="hljs-number">12</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>Ribo_exp <span class="hljs-operator">&lt;-</span> Ribo_exp<span class="hljs-punctuation">[</span>rowSums<span class="hljs-punctuation">(</span>Ribo_exp<span class="hljs-punctuation">)</span><span class="hljs-operator">&gt;</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br><br><span class="hljs-comment"># RNASeq</span><br>setwd<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;E://220625_PC/R workplace/220320_SXL/240115_tranlation/transla_by_Cyt.RNAseq/&quot;</span><span class="hljs-punctuation">)</span><br>RNA_count <span class="hljs-operator">&lt;-</span> read.table<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;RNASeq.CDS_count.txt&quot;</span><span class="hljs-punctuation">,</span>header <span class="hljs-operator">=</span> <span class="hljs-built_in">T</span><span class="hljs-punctuation">)</span><br>rownames<span class="hljs-punctuation">(</span>RNA_count<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span> RNA_count<span class="hljs-operator">$</span>Geneid<br>colnames<span class="hljs-punctuation">(</span>RNA_count<span class="hljs-punctuation">)</span><br>colnames<span class="hljs-punctuation">(</span>RNA_count<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span> <span class="hljs-string">&quot;Geneid&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Chr&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Start&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;End&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Strand&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Length&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;wt_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;wt_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;wt_3&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_3&quot;</span><span class="hljs-punctuation">)</span><br>RNA_exp <span class="hljs-operator">&lt;-</span> RNA_count<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;C.wt_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;C.wt_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;C.wt_3&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;C.Sxl_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;C.Sxl_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;C.Sxl_3&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>colnames<span class="hljs-punctuation">(</span>RNA_exp<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;wt_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;wt_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;wt_3&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_1&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_2&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;Sxl_3&quot;</span><span class="hljs-punctuation">)</span><br>RNA_exp <span class="hljs-operator">&lt;-</span> RNA_exp<span class="hljs-punctuation">[</span>rownames<span class="hljs-punctuation">(</span>RNA_exp<span class="hljs-punctuation">)</span> <span class="hljs-operator">%in%</span> rownames<span class="hljs-punctuation">(</span>Ribo_exp<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="5-2-PCA"><a href="#5-2-PCA" class="headerlink" title="5.2 PCA"></a>5.2 PCA</h6><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs R"><span class="hljs-comment">#normalized - Ribo</span><br>library<span class="hljs-punctuation">(</span>DESeq2<span class="hljs-punctuation">)</span><br>Ribo_exp_read.count <span class="hljs-operator">&lt;-</span> Ribo_count<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-number">7</span><span class="hljs-operator">:</span><span class="hljs-number">12</span><span class="hljs-punctuation">]</span><br>Ribo_exp_read.count <span class="hljs-operator">&lt;-</span> Ribo_exp_read.count<span class="hljs-punctuation">[</span>rowSums<span class="hljs-punctuation">(</span>Ribo_exp_read.count<span class="hljs-punctuation">)</span><span class="hljs-operator">&gt;</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>condition <span class="hljs-operator">&lt;-</span>factor<span class="hljs-punctuation">(</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;WT&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;SXL&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                   levels <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;WT&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;SXL&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>colData <span class="hljs-operator">&lt;-</span> data.frame<span class="hljs-punctuation">(</span>row.names<span class="hljs-operator">=</span>colnames<span class="hljs-punctuation">(</span>Ribo_exp_read.count<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>condition<span class="hljs-punctuation">)</span><br>dds <span class="hljs-operator">&lt;-</span> DESeqDataSetFromMatrix<span class="hljs-punctuation">(</span>Ribo_exp_read.count<span class="hljs-punctuation">,</span> colData<span class="hljs-punctuation">,</span> design<span class="hljs-operator">=</span> <span class="hljs-operator">~</span> condition<span class="hljs-punctuation">)</span><br>dds <span class="hljs-operator">&lt;-</span> DESeq<span class="hljs-punctuation">(</span>dds<span class="hljs-punctuation">)</span><br>Ribo_normalized_counts <span class="hljs-operator">&lt;-</span> counts<span class="hljs-punctuation">(</span>dds<span class="hljs-punctuation">,</span> normalized<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>Ribo_normalized_counts <span class="hljs-operator">&lt;-</span> as.data.frame<span class="hljs-punctuation">(</span>Ribo_normalized_counts<span class="hljs-punctuation">)</span><br>Ribo_normalized_counts<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span> rownames<span class="hljs-punctuation">(</span>Ribo_normalized_counts<span class="hljs-punctuation">)</span><br>Ribo_rpkm<span class="hljs-operator">&lt;-</span> Ribo_normalized_counts<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-operator">-</span><span class="hljs-number">7</span><span class="hljs-punctuation">]</span><br><br>library<span class="hljs-punctuation">(</span>FactoMineR<span class="hljs-punctuation">)</span><br>gene <span class="hljs-operator">&lt;-</span> t<span class="hljs-punctuation">(</span>Ribo_rpkm<span class="hljs-punctuation">)</span><br>gene.pca <span class="hljs-operator">&lt;-</span> PCA<span class="hljs-punctuation">(</span>gene<span class="hljs-punctuation">,</span> ncp <span class="hljs-operator">=</span> <span class="hljs-number">4</span><span class="hljs-punctuation">,</span> scale.unit <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> graph <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span><br>plot<span class="hljs-punctuation">(</span>gene.pca<span class="hljs-punctuation">)</span><br><span class="hljs-comment"># chose: WT_1,WT_3,SXL_1,SXL2</span><br><br><br><span class="hljs-comment">#normalized - RNAS</span><br>library<span class="hljs-punctuation">(</span>DESeq2<span class="hljs-punctuation">)</span><br>RNA_exp_read.count <span class="hljs-operator">&lt;-</span> RNA_count<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">10</span><span class="hljs-operator">:</span><span class="hljs-number">12</span><span class="hljs-punctuation">,</span><span class="hljs-number">7</span><span class="hljs-operator">:</span><span class="hljs-number">9</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>RNA_exp_read.count <span class="hljs-operator">&lt;-</span> RNA_exp_read.count<span class="hljs-punctuation">[</span>rowSums<span class="hljs-punctuation">(</span>RNA_exp_read.count<span class="hljs-punctuation">)</span><span class="hljs-operator">&gt;</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>condition <span class="hljs-operator">&lt;-</span>factor<span class="hljs-punctuation">(</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;WT&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span> <span class="hljs-built_in">rep</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;SXL&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span><br>                   levels <span class="hljs-operator">=</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;WT&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;SXL&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>colData <span class="hljs-operator">&lt;-</span> data.frame<span class="hljs-punctuation">(</span>row.names<span class="hljs-operator">=</span>colnames<span class="hljs-punctuation">(</span>RNA_exp_read.count<span class="hljs-punctuation">)</span><span class="hljs-punctuation">,</span>condition<span class="hljs-punctuation">)</span><br>dds <span class="hljs-operator">&lt;-</span> DESeqDataSetFromMatrix<span class="hljs-punctuation">(</span>RNA_exp_read.count<span class="hljs-punctuation">,</span> colData<span class="hljs-punctuation">,</span> design<span class="hljs-operator">=</span> <span class="hljs-operator">~</span> condition<span class="hljs-punctuation">)</span><br>dds <span class="hljs-operator">&lt;-</span> DESeq<span class="hljs-punctuation">(</span>dds<span class="hljs-punctuation">)</span><br>RNA_normalized_counts <span class="hljs-operator">&lt;-</span> counts<span class="hljs-punctuation">(</span>dds<span class="hljs-punctuation">,</span> normalized<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>RNA_normalized_counts <span class="hljs-operator">&lt;-</span> as.data.frame<span class="hljs-punctuation">(</span>RNA_normalized_counts<span class="hljs-punctuation">)</span><br>RNA_normalized_counts<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span> rownames<span class="hljs-punctuation">(</span>RNA_normalized_counts<span class="hljs-punctuation">)</span><br>RNA_rpkm<span class="hljs-operator">&lt;-</span> RNA_normalized_counts<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-operator">-</span><span class="hljs-number">7</span><span class="hljs-punctuation">]</span><br><br>library<span class="hljs-punctuation">(</span>FactoMineR<span class="hljs-punctuation">)</span><br>gene <span class="hljs-operator">&lt;-</span> t<span class="hljs-punctuation">(</span>RNA_rpkm<span class="hljs-punctuation">)</span><br>gene.pca <span class="hljs-operator">&lt;-</span> PCA<span class="hljs-punctuation">(</span>gene<span class="hljs-punctuation">,</span> ncp <span class="hljs-operator">=</span> <span class="hljs-number">4</span><span class="hljs-punctuation">,</span> scale.unit <span class="hljs-operator">=</span> <span class="hljs-literal">TRUE</span><span class="hljs-punctuation">,</span> graph <span class="hljs-operator">=</span> <span class="hljs-literal">FALSE</span><span class="hljs-punctuation">)</span><br>plot<span class="hljs-punctuation">(</span>gene.pca<span class="hljs-punctuation">)</span><br><span class="hljs-comment"># chose: WT_1,WT_2,SXL_2,SXL3</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="5-3-calculating-differential-translation-genes-by-riborex"><a href="#5-3-calculating-differential-translation-genes-by-riborex" class="headerlink" title="5.3 calculating differential translation genes by riborex"></a>5.3 calculating differential translation genes by riborex</h6><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs R">Ribo_exp <span class="hljs-operator">&lt;-</span> na.omit<span class="hljs-punctuation">(</span>Ribo_exp<span class="hljs-punctuation">)</span><br>RNA_exp <span class="hljs-operator">&lt;-</span> na.omit<span class="hljs-punctuation">(</span>RNA_exp<span class="hljs-punctuation">)</span><br><br><span class="hljs-comment"># riborex</span><br>library<span class="hljs-punctuation">(</span>fdrtool<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>riborex<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>DESeq2<span class="hljs-punctuation">)</span><br><br>RNACntTable <span class="hljs-operator">&lt;-</span> RNA_exp<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span><span class="hljs-number">5</span><span class="hljs-punctuation">,</span><span class="hljs-number">6</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>RiboCntTable <span class="hljs-operator">&lt;-</span> Ribo_exp<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">,</span><span class="hljs-number">4</span><span class="hljs-punctuation">,</span><span class="hljs-number">5</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span><br>head<span class="hljs-punctuation">(</span>RNACntTable<span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><br>head<span class="hljs-punctuation">(</span>RiboCntTable<span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><br><br>rnaCond <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-string">&quot;treated&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;treated&quot;</span><span class="hljs-punctuation">)</span><br>riboCond <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;control&quot;</span><span class="hljs-punctuation">,</span>  <span class="hljs-string">&quot;treated&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;treated&quot;</span><span class="hljs-punctuation">)</span><br>res.deseq2 <span class="hljs-operator">&lt;-</span> riborex<span class="hljs-punctuation">(</span>RNACntTable<span class="hljs-punctuation">,</span> RiboCntTable<span class="hljs-punctuation">,</span> rnaCond<span class="hljs-punctuation">,</span> riboCond<span class="hljs-punctuation">,</span> engine <span class="hljs-operator">=</span> <span class="hljs-string">&quot;DESeq2&quot;</span><span class="hljs-punctuation">)</span><br>head<span class="hljs-punctuation">(</span>res.deseq2<span class="hljs-punctuation">,</span><span class="hljs-number">3</span><span class="hljs-punctuation">)</span><br>hist<span class="hljs-punctuation">(</span>res.deseq2<span class="hljs-operator">$</span>pvalue<span class="hljs-punctuation">,</span> main <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;DESeq2 unadjusted p-values&#x27;</span><span class="hljs-punctuation">,</span> xlab<span class="hljs-operator">=</span><span class="hljs-string">&#x27;Unadjusted p-values&#x27;</span><span class="hljs-punctuation">,</span><br>     col <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;#F4C7AB&#x27;</span><span class="hljs-punctuation">)</span><br><br>result <span class="hljs-operator">&lt;-</span> as.data.frame<span class="hljs-punctuation">(</span>res.deseq2<span class="hljs-punctuation">)</span><br>tranla_diff <span class="hljs-operator">&lt;-</span> result<span class="hljs-punctuation">[</span><span class="hljs-built_in">abs</span><span class="hljs-punctuation">(</span>result<span class="hljs-operator">$</span>log2FoldChange<span class="hljs-punctuation">)</span> <span class="hljs-operator">&gt;</span><span class="hljs-number">1</span> <span class="hljs-operator">&amp;</span> result<span class="hljs-operator">$</span>padj<span class="hljs-operator">&lt;</span> <span class="hljs-number">0.05</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>tranla_diff <span class="hljs-operator">&lt;-</span> tranla_diff<span class="hljs-punctuation">[</span>tranla_diff<span class="hljs-operator">$</span>baseMean <span class="hljs-operator">&gt;</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>tranla_diff <span class="hljs-operator">&lt;-</span> na.omit<span class="hljs-punctuation">(</span>tranla_diff<span class="hljs-punctuation">)</span><br>tranla_up <span class="hljs-operator">&lt;-</span> tranla_diff<span class="hljs-punctuation">[</span>tranla_diff<span class="hljs-operator">$</span>log2FoldChange <span class="hljs-operator">&gt;</span><span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>tranla_down <span class="hljs-operator">&lt;-</span> tranla_diff<span class="hljs-punctuation">[</span>tranla_diff<span class="hljs-operator">$</span>log2FoldChange <span class="hljs-operator">&lt;</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br><br>setwd<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;E:/220625_PC/R workplace/220910_annotation/Drosaphila/&quot;</span><span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>rtracklayer<span class="hljs-punctuation">)</span><br>library<span class="hljs-punctuation">(</span>dplyr<span class="hljs-punctuation">)</span><br>genome.anno <span class="hljs-operator">&lt;-</span> import<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;dmel-all-r6.44.gtf&quot;</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">%&gt;%</span> as.data.frame<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><br>genome.anno<span class="hljs-operator">=</span>genome.anno<span class="hljs-punctuation">[</span><span class="hljs-punctuation">,</span><span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;gene_id&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;gene_symbol&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;seqnames&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;start&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;end&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;width&quot;</span><span class="hljs-punctuation">,</span><br>                           <span class="hljs-string">&quot;strand&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;type&quot;</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">]</span> <br>head<span class="hljs-punctuation">(</span>genome.anno<span class="hljs-punctuation">)</span><br>genome.anno <span class="hljs-operator">&lt;-</span> genome.anno<span class="hljs-punctuation">[</span>genome.anno<span class="hljs-operator">$</span>type<span class="hljs-operator">==</span><span class="hljs-string">&quot;gene&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>colnames<span class="hljs-punctuation">(</span>genome.anno<span class="hljs-punctuation">)</span> <span class="hljs-operator">&lt;-</span> <span class="hljs-built_in">c</span><span class="hljs-punctuation">(</span><span class="hljs-string">&quot;GeneID&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;gene_symbol&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;seqnames&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;start&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;end&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;length&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;strand&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;type&quot;</span><span class="hljs-punctuation">)</span><br><br>result<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span> rownames<span class="hljs-punctuation">(</span>result<span class="hljs-punctuation">)</span><br>T_S2 <span class="hljs-operator">&lt;-</span> merge<span class="hljs-punctuation">(</span>result<span class="hljs-punctuation">,</span>genome.anno<span class="hljs-punctuation">,</span> by<span class="hljs-operator">=</span><span class="hljs-string">&quot;GeneID&quot;</span><span class="hljs-punctuation">,</span> all.x<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>Ribo_exp<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span>  rownames<span class="hljs-punctuation">(</span>Ribo_exp<span class="hljs-punctuation">)</span><br>T_S2 <span class="hljs-operator">&lt;-</span> merge<span class="hljs-punctuation">(</span>T_S2<span class="hljs-punctuation">,</span>Ribo_exp<span class="hljs-punctuation">,</span>by<span class="hljs-operator">=</span><span class="hljs-string">&quot;GeneID&quot;</span><span class="hljs-punctuation">,</span> all.x<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br>RNA_exp<span class="hljs-operator">$</span>GeneID <span class="hljs-operator">&lt;-</span> rownames<span class="hljs-punctuation">(</span>RNA_exp<span class="hljs-punctuation">)</span><br>T_S2 <span class="hljs-operator">&lt;-</span> merge<span class="hljs-punctuation">(</span>T_S2<span class="hljs-punctuation">,</span>RNA_exp<span class="hljs-punctuation">,</span>by<span class="hljs-operator">=</span><span class="hljs-string">&quot;GeneID&quot;</span><span class="hljs-punctuation">,</span> all.x<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span><span class="hljs-punctuation">)</span><br><br>T_diff <span class="hljs-operator">&lt;-</span> T_S2<span class="hljs-punctuation">[</span><span class="hljs-built_in">abs</span><span class="hljs-punctuation">(</span>T_S2<span class="hljs-operator">$</span>log2FoldChange<span class="hljs-punctuation">)</span> <span class="hljs-operator">&gt;</span> <span class="hljs-number">1</span> <span class="hljs-operator">&amp;</span> T_S2<span class="hljs-operator">$</span>pvalue <span class="hljs-operator">&lt;</span> <span class="hljs-number">0.05</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>T_diff <span class="hljs-operator">&lt;-</span> dplyr<span class="hljs-operator">::</span>filter<span class="hljs-punctuation">(</span>T_diff<span class="hljs-punctuation">,</span> <span class="hljs-operator">!</span><span class="hljs-built_in">is.na</span><span class="hljs-punctuation">(</span>GeneID<span class="hljs-punctuation">)</span><span class="hljs-punctuation">)</span><br>T_test <span class="hljs-operator">&lt;-</span> T_diff<span class="hljs-punctuation">[</span>T_diff<span class="hljs-operator">$</span>baseMean <span class="hljs-operator">&lt;=</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>T_diff <span class="hljs-operator">&lt;-</span> T_diff<span class="hljs-punctuation">[</span>T_diff<span class="hljs-operator">$</span>baseMean <span class="hljs-operator">&gt;</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>T_up <span class="hljs-operator">&lt;-</span> T_diff<span class="hljs-punctuation">[</span>T_diff<span class="hljs-operator">$</span>log2FoldChange <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br>T_down <span class="hljs-operator">&lt;-</span> T_diff<span class="hljs-punctuation">[</span>T_diff<span class="hljs-operator">$</span>log2FoldChange <span class="hljs-operator">&lt;</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span><span class="hljs-punctuation">]</span><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Bioinformatic/" class="category-chain-item">Bioinformatic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Differential translation gene by RiboSeq</div>
+      <div>https://www.lianganmin.cn/2025/01/02/differential-translation-gene-by-RiboSeq/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>An-min</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 2, 2025</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/01/06/250105_highlighting%20the%20target%20gene%20in%20scatterplot%20by%20R/" title="Highlighting the target gene in scatterplot">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Highlighting the target gene in scatterplot</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/01/2025-01-01%E5%85%83%E6%97%A6%E4%B8%9C%E6%B9%96%E9%AA%91%E8%A1%8C/" title="2025-01-01元旦东湖骑行">
+                        <span class="hidden-mobile">2025-01-01元旦东湖骑行</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","appKey":"nP7HcwuLCrN0X4gly6iVDXVK","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
