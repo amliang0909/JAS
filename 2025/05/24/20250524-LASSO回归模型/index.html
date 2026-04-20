@@ -26,17 +26,17 @@
 <meta property="og:site_name" content="Liang An-Min">
 <meta property="og:description" content="LASSO 回归模型. 一. LASSO 回归模型的原理LASSO 回归（least absolute shrinkage and seletion operator），即最小绝对值收敛和选择算子算法，与最小二乘法在曲线拟合中对参数估计的作用类似，LASSO算法也常被用于广义线性模型中的变量筛选。具体地讲，就是LASSO通过生成一个惩罚函数，对回归模型中的变量系数进行压缩（把不重要的系数压缩到零）">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/1.png">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/2.png">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/3.png">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/4.png">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/5.png">
-<meta property="og:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/LASSO%E5%9B%9E%E5%BD%92%E7%B3%BB%E6%95%B0%E5%9B%BE.png">
+<meta property="og:image" content="https://www.lianganmin.cn/1.png">
+<meta property="og:image" content="https://www.lianganmin.cn/2.png">
+<meta property="og:image" content="https://www.lianganmin.cn/3.png">
+<meta property="og:image" content="https://www.lianganmin.cn/4.png">
+<meta property="og:image" content="https://www.lianganmin.cn/5.png">
+<meta property="og:image" content="https://www.lianganmin.cn/LASSO%E5%9B%9E%E5%BD%92%E7%B3%BB%E6%95%B0%E5%9B%BE.png">
 <meta property="article:published_time" content="2025-05-24T04:21:29.000Z">
 <meta property="article:modified_time" content="2025-07-09T04:40:21.395Z">
 <meta property="article:author" content="An-min">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.lianganmin.cn/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/1.png">
+<meta name="twitter:image" content="https://www.lianganmin.cn/1.png">
   
   
   
@@ -326,11 +326,11 @@
 <h4 id="一-LASSO-回归模型的原理"><a href="#一-LASSO-回归模型的原理" class="headerlink" title="一. LASSO 回归模型的原理"></a>一. LASSO 回归模型的原理</h4><p>LASSO 回归（least absolute shrinkage and seletion operator），即最小绝对值收敛和选择算子算法，与最小二乘法在曲线拟合中对参数估计的作用类似，LASSO算法也常被用于广义线性模型中的变量筛选。具体地讲，就是LASSO通过生成一个惩罚函数，对回归模型中的变量系数进行压缩（把不重要的系数压缩到零），从而防止过度拟合，同时保留关键变量，这样可以更好地提高模型的泛化能力。</p>
 <p>不管目标因变量是连续的，还是多远离散的，或者是二元的，都可以用LASSO回归进行建模预测。</p>
 <p>简单来说，它就是将一个含有很多变量的、复杂线性回归模型进行一定得简化，如下面的方程所示， X<sup>1</sup> 到  X<sup>n</sup> 是变量（可以是不同的基因，也可以是不同的剪接事件，可以任何你需要的因素）， β<sup>0</sup> 是常数项， β<sup>1</sup> 到  β<sup>n</sup> 是系数（也就是每个变量的权重，不同变量对结局影响的大小）：</p>
-<p><img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p><img src="/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
 <p>LASSO最大的特点就是引入了惩罚函数λ，对系数β<sup>1</sup> 、β<sup>2</sup> 、…、以及最后的β<sup>n</sup> 进行压缩：即当 β<sup>1</sup> &#x3D; 0 时，X<sup>1</sup> 这个变量对结局的影响就为 0 了，则X<sup>1</sup> 就可以被被剔除出方程：</p>
-<p><img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <p>当 β<sup>2</sup> &#x3D; 0 时，X<sup>2</sup>则被剔除方程，……，以此类推，权重越低的变量，越早被压缩到0，逐步压缩之后，最后就会只剩下几个最重要的变量，这里假设是X<sup>4</sup> 、X<sup>5</sup> 和 X<sup>n</sup>，这时候最后的方程变换为：</p>
-<p><img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
+<p><img src="/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 <p>此处所剩下的三个变量X<sup>4</sup> 、X<sup>5</sup> 和 X<sup>n</sup> 就是我们筛选出来的变量（比如对血管新生影响最大的三个剪接事件），用于下一步分析。</p>
 <p>.</p>
 <p>.</p>
@@ -347,7 +347,7 @@
 <p>.</p>
 <h4 id="三-L1正则化"><a href="#三-L1正则化" class="headerlink" title="三. L1正则化"></a>三. L1正则化</h4><p>所以，在LASSO回归模型训练中，采用一个L1正则化来将冗余预测变量的系数压缩为0，在压缩系数的同时起到变量筛选的作用，可以避免由于过拟合导致的模型概化能力不足的问题。总结地说，正如前文中所说，LASSO回归其实就是在线性回归的基础上加一个L1正则化项。</p>
 <p>这里的L1正则化就是以回归系数的绝对值之和作为惩罚系数，来压缩回归系数。</p>
-<p><img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
+<p><img src="/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 <p>.</p>
 <p>光看上面这个公式好像不太直观，我们举一个贴近一点的例子：比如整理行李箱</p>
 <p><em>假设你要去旅行，但航空公司规定：</em><br><em>行李箱总重量 ≤ 10kg（硬性限制）</em><br><em>必须带最重要的东西（比如证件、手机），可舍弃不重要的（比如多余的鞋子）</em></p>
@@ -365,7 +365,7 @@
 <p>你可以用很多特征做预测，但所有特征的影响力总和不能超标——必须把不重要的特征影响力降到零！</p>
 <p>.</p>
 <p>这个LASSO回归公式可以形象地理解为机器学习模型的”双目标优化”，用通俗的语言来拆解它的每个部分：</p>
-<p>​                                                                 <img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/5.png" srcset="/img/loading.gif" lazyload alt="5"></p>
+<p>​                                                                 <img src="/5.png" srcset="/img/loading.gif" lazyload alt="5"></p>
 <p>.</p>
 <p><strong>左边部分：预测误差</strong></p>
 <p>假如你是一位医生，要根据100项体检指标预测糖尿病风险：</p>
@@ -432,7 +432,7 @@
 <hr>
 <p>.</p>
 <h4 id="四-LASSO回归系数图和参数图"><a href="#四-LASSO回归系数图和参数图" class="headerlink" title="四. LASSO回归系数图和参数图"></a>四. LASSO回归系数图和参数图</h4><p>.</p>
-<p><img src="/2025/05/24/20250524-LASSO%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B/LASSO%E5%9B%9E%E5%BD%92%E7%B3%BB%E6%95%B0%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="LASSO回归系数图"></p>
+<p><img src="/LASSO%E5%9B%9E%E5%BD%92%E7%B3%BB%E6%95%B0%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="LASSO回归系数图"></p>
 <p>.</p>
 <p>上面这两张图，是LASSO回归中的系数轨迹图（左图）和交叉验证误差图（右图）。</p>
 <p>.</p>
