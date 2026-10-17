@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS/%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84read%E5%AF%86%E5%BA%A6.jpg">
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS/%E7%94%A8%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84reads%E5%AF%86%E5%BA%A6%E6%9D%A5%E4%BC%B0%E8%AE%A1%E6%91%A9%E5%B0%94%E6%AF%94%E4%BE%8B.jpg">
 <meta property="article:published_time" content="2026-10-14T14:32:31.000Z">
-<meta property="article:modified_time" content="2026-10-17T11:19:30.999Z">
+<meta property="article:modified_time" content="2026-10-17T11:21:56.607Z">
 <meta property="article:author" content="Liang An-Min">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS/reads%E6%95%B0%E4%B8%8E%E5%BA%8F%E5%88%97%E7%89%87%E6%AE%B5%E7%9A%84%E6%91%A9%E5%B0%94%E6%B5%93%E5%BA%A6%E5%8F%8A%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E7%9A%84%E6%88%90%E6%AD%A3%E7%9B%B8%E5%85%B3.jpg">
@@ -332,6 +332,8 @@
 <p>支持<strong>包含型</strong>的reads证据是两类junction reads，即一类是跨越 ‘up-stream exon，skipping exon’的连接点，另一类是跨越 ‘skipping exon，down-stream exon‘的连接点，跨这两类连接点的reads直接证明目标外显子被剪接进了成熟mRNA中。</p>
 <p>而支持<strong>排除型</strong>的证据则是跨越‘up-stream exon，down-stream exon’连接点的junction reads，这证明生成的isoform跳过了中间的外显子。</p>
 <p>除了junction reads，rMATS还可以统计exon body reads，即完全落在目标外显子(skipped exon)内部的reads，不跨越任何剪接位点。在JCEC模式下，这些reads也被计入包含型的计数中，但它们的特异性不如junction reads，因为一个落在外显子内部的reads，并不直接证明它来自于成熟mRNA。</p>
+
+
 
 
 <p><strong>有效长度校正</strong></p>
