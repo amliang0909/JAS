@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Liang An-Min">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Understanding rMATS: 基于 Junction Reads 的剪接Inclusion水平（PSI&#x2F;ψ）估计. rMATS（multivariate analysis of transcript splicing）是我们使用最多的一个alternative splicing events计算软件，其计算原理主要是基于RNA-Seq的junction reads计数，通过分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20261014 Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计">
+<meta property="og:url" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Liang An-Min">
+<meta property="og:description" content="Understanding rMATS: 基于 Junction Reads 的剪接Inclusion水平（PSI&#x2F;ψ）估计. rMATS（multivariate analysis of transcript splicing）是我们使用最多的一个alternative splicing events计算软件，其计算原理主要是基于RNA-Seq的junction reads计数，通过分">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/exon_skipping_event.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/reads%E6%95%B0%E4%B8%8E%E5%BA%8F%E5%88%97%E7%89%87%E6%AE%B5%E7%9A%84%E6%91%A9%E5%B0%94%E6%B5%93%E5%BA%A6%E5%8F%8A%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E7%9A%84%E6%88%90%E6%AD%A3%E7%9B%B8%E5%85%B3.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E5%89%AA%E6%8E%A5inclusion%E6%B0%B4%E5%B9%B3%E7%9A%84%E6%91%A9%E5%B0%94%E6%B5%93%E5%BA%A6%E6%AF%94%E4%BE%8B.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E4%BB%8Eread%E8%AE%A1%E6%95%B0%E8%AE%A1%E7%AE%97%E6%AF%94%E4%BE%8B.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84read%E5%AF%86%E5%BA%A6.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E7%94%A8%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84reads%E5%AF%86%E5%BA%A6%E6%9D%A5%E4%BC%B0%E8%AE%A1%E6%91%A9%E5%B0%94%E6%AF%94%E4%BE%8B.jpg">
+<meta property="article:published_time" content="2026-10-14T14:32:31.000Z">
+<meta property="article:modified_time" content="2026-10-17T13:11:49.464Z">
+<meta property="article:author" content="Liang An-Min">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/exon_skipping_event.jpg">
+  
+  
+  
+  <title>20261014 Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计 - Liang An-Min</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.lianganmin.cn","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","app_key":"nP7HcwuLCrN0X4gly6iVDXVK","server_url":null,"path":"window.location.pathname","ignore_local":true},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Liang An-Min</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/Gallery/" target="_self">
+                <i class="iconfont icon-Gallery-fill"></i>
+                <span>Gallery</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="20261014 Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Liang An-Min
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-14 22:32" pubdate>
+          October 14, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">20261014 Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="Understanding-rMATS-基于-Junction-Reads-的剪接Inclusion水平（PSI-ψ）估计"><a href="#Understanding-rMATS-基于-Junction-Reads-的剪接Inclusion水平（PSI-ψ）估计" class="headerlink" title="Understanding rMATS: 基于 Junction Reads 的剪接Inclusion水平（PSI&#x2F;ψ）估计"></a>Understanding rMATS: 基于 Junction Reads 的剪接Inclusion水平（PSI&#x2F;<em>ψ</em>）估计</h3><p>.</p>
+<p>rMATS（multivariate analysis of transcript splicing）是我们使用最多的一个alternative splicing events计算软件，其计算原理主要是<strong>基于RNA-Seq的junction reads计数，通过分层统计模型对每个选择性剪接事件的两类isoforms (inclusion vs exclusion)比例进行建模，从而在重复样本中准确地检测组间差异剪接事件</strong>。</p>
+<p>.</p>
+<h4 id="1-junction-reads对剪接事件的量化"><a href="#1-junction-reads对剪接事件的量化" class="headerlink" title="1). junction reads对剪接事件的量化"></a><strong>1). junction reads对剪接事件的量化</strong></h4><p>rMATS通过统计跨越剪接位点的junction reads以及落在isoform特异性区域内的reads，来计算剪接包含水平（Percent Spliced In，PSI，常用<em>ψ</em>表示），这个值本质上反映的是特定条件下，某个外显子被“使用”的比例。</p>
+<p>rMATS 首先从 RNA-Seq 数据中识别五类基本可变剪接事件：外显子跳跃（SE）、可变 5‘ 剪接位点（A5SS）、可变 3’ 剪接位点（A3SS）、互斥外显子（MXE）和内含子保留（RI）。</p>
+<p>对于每一个事件，它关注两类互相竞争的isoforms:<strong>包含型</strong>（exon inclusion isoform，包含目标外显子或使用特定剪接位点）和<strong>排除型</strong>（exon skipping isoform，不包含）。</p>
+<p>.</p>
+<p>以最经典的exon skipping （SE）事件为例，一个SE事件涉及3个外显子：up-stream exon，skipping exon以及down-stream exon。</p>
+<p>支持<strong>包含型</strong>的reads证据是两类junction reads，即一类是跨越 ‘up-stream exon，skipping exon’的连接点，另一类是跨越 ‘skipping exon，down-stream exon‘的连接点，跨这两类连接点的reads直接证明目标外显子被剪接进了成熟mRNA中。</p>
+<p>而支持<strong>排除型</strong>的证据则是跨越‘up-stream exon，down-stream exon’连接点的junction reads，这证明生成的isoform跳过了中间的外显子。</p>
+<p>除了junction reads，rMATS还可以统计exon body reads，即完全落在目标外显子(skipped exon)内部的reads，不跨越任何剪接位点。在JCEC模式下，这些reads也被计入包含型的计数中，但它们的特异性不如junction reads，因为一个落在外显子内部的reads，并不直接证明它来自于成熟mRNA。</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/exon_skipping_event.jpg" srcset="/img/loading.gif" lazyload alt="exon_skipping_event"></p>
+<p><strong>有效长度校正</strong></p>
+<p>IJC（包含型 junction reads 数）和 SJC（排除型 junction reads 数）并不能直接计算**IJC&#x2F;(IJC+SJC)**，因为exon inclusion isoform比exon skipping isoform多了目标外显子那一段序列，能容纳mapped reads的位置更多。即使两种剪接类型isoform的摩尔浓度完全相同，exon inclusion isoform也会比对到更多的reads，从而产生系统性偏差。</p>
+<p>所以，rMATS 引入<strong>有效长度</strong>（Effective Length）来校正，对一个长度为L的序列片段，read长度为r，这样能容纳一个完整read的起始位置数为<strong>L-r+1</strong>，这样就是有效长度。</p>
+<p>关于有效长度，如果前文尚未完全理解，在此详细解释：一个read要能完整地落在一段序列上，它的起始位置加上reads长度不能超过序列的末端，所以，如果read的起始位置为x，则该read覆盖的范围为[x，x+r-1]，要保证read完全落在序列内部，则需要满足x+r-1 &lt;&#x3D; L，转换一下，也就是x+r-1 &lt;&#x3D; L-r+1。也就是说，如果x是从1开始计算（第一个碱基位置），那么满足条件的起始位置就有x&#x3D;1，2，3，……，L-r+1，总共有L-r+1个可能得起始位置。</p>
+<p>.</p>
+<p>现在设：</p>
+<p><em>I</em>：支持包含型的读段数</p>
+<p><em>S</em>：支持排除型的读段数</p>
+<p>L<sub>I</sub>：包含型的有效长度</p>
+<p>L<sub>S</sub> ：排除型的有效长度 </p>
+<p>c<sub>I</sub>：包含型的摩尔浓度</p>
+<p>c<sub>S</sub>：包含型的摩尔浓度</p>
+<p>read数与摩尔浓度、有效长度的关系为（正相关）：</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/reads%E6%95%B0%E4%B8%8E%E5%BA%8F%E5%88%97%E7%89%87%E6%AE%B5%E7%9A%84%E6%91%A9%E5%B0%94%E6%B5%93%E5%BA%A6%E5%8F%8A%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E7%9A%84%E6%88%90%E6%AD%A3%E7%9B%B8%E5%85%B3.jpg" srcset="/img/loading.gif" lazyload alt="reads数与序列片段的摩尔浓度及有效长度的成正相关"></p>
+<p>我们真正想估计的剪接inclusion水平是摩尔浓度的比例：</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E5%89%AA%E6%8E%A5inclusion%E6%B0%B4%E5%B9%B3%E7%9A%84%E6%91%A9%E5%B0%94%E6%B5%93%E5%BA%A6%E6%AF%94%E4%BE%8B.jpg" srcset="/img/loading.gif" lazyload alt="剪接inclusion水平的摩尔浓度比例"></p>
+<p>但从read计数出发，直接得到的是：</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E4%BB%8Eread%E8%AE%A1%E6%95%B0%E8%AE%A1%E7%AE%97%E6%AF%94%E4%BE%8B.jpg" srcset="/img/loading.gif" lazyload alt="从read计数计算比例"></p>
+<p><strong>这个值和 <em>ψ</em> 并不相等</strong>。为了还原 <em>ψ</em>，需要先把reads计数除以各自的有效长度，得到<strong>单位有效长度上的read密度</strong>：</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84read%E5%AF%86%E5%BA%A6.jpg" srcset="/img/loading.gif" lazyload alt="单位有效长度上的read密度"></p>
+<p>然后用这两个密度来估计摩尔比例：</p>
+<p><img src="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/%E7%94%A8%E5%8D%95%E4%BD%8D%E6%9C%89%E6%95%88%E9%95%BF%E5%BA%A6%E4%B8%8A%E7%9A%84reads%E5%AF%86%E5%BA%A6%E6%9D%A5%E4%BC%B0%E8%AE%A1%E6%91%A9%E5%B0%94%E6%AF%94%E4%BE%8B.jpg" srcset="/img/loading.gif" lazyload alt="用单位有效长度上的reads密度来估计摩尔比例"></p>
+<p>以上即为 rMATS 中 ψ 估计公式的来源。其本质是：<strong>先把长度带来的系统性偏倚除掉，再计算比例。</strong></p>
+<p>.</p>
+<p>rMATS 将用有效长度校正的结果嵌入到二项分布的概率参数中，使得后续的统计检验是在<strong>校正后的摩尔比例尺度</strong>上进行的。这意味着组间比较的是真实的剪接差异，而不是长度差异带来的假像。</p>
+<p>这里需要注意的一点是，rMATS程序运行中有一个参数–readLength需要设置，这个参数反映的是测序reads的长度，它是一个全局技术参数，与这里的inclusion和exclusion两种异构体isoform长度不是一回事，容易混淆。rMATS 会根据基因组注释文件自动读取每个外显子、内含子的坐标，然后根据剪接事件的具体结构，自动计算出两种isoform各自的有效长度。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Bioinformatic/" class="category-chain-item">Bioinformatic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>20261014 Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计</div>
+      <div>https://www.lianganmin.cn/2026/10/14/20261014-Understanding-rMATS：基于-Junction-Reads-的剪接Inclusion水平（PSI）估计/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Liang An-Min</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>October 14, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/10/14/20261014-Understanding-rMATS/" title="Understanding rMATS">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Understanding rMATS</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/26/20260226-RNA-Binding-sites-in-AS-events/" title="RNA Binding sites in AS-events">
+                        <span class="hidden-mobile">RNA Binding sites in AS-events</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"gyvTo5i0YHZF9QKN0l8gZmDq-gzGzoHsz","appKey":"nP7HcwuLCrN0X4gly6iVDXVK","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
