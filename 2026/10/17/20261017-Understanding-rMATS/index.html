@@ -27,8 +27,9 @@
 <meta property="og:description" content="Understanding rMATS [2]. rMATS（multivariate analysis of transcript splicing）是我们使用最多的一个alternative splicing events计算软件，其计算原理主要是基于RNA-Seq的junction reads计数，通过分层统计模型对每个选择性剪接事件的两类isoforms (inclusion vs exc">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E7%9A%84%E7%BB%9F%E8%AE%A1%E8%A1%A8%E8%BE%BE%E5%BC%8F.jpg">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS/inclusion_isoform%E7%9A%84%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0.jpg">
 <meta property="article:published_time" content="2026-10-17T11:09:37.000Z">
-<meta property="article:modified_time" content="2026-10-17T12:56:04.565Z">
+<meta property="article:modified_time" content="2026-10-17T13:00:30.772Z">
 <meta property="article:author" content="Liang An-Min">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E7%9A%84%E7%BB%9F%E8%AE%A1%E8%A1%A8%E8%BE%BE%E5%BC%8F.jpg">
@@ -266,7 +267,7 @@
         
         
         
-          10 mins
+          9 mins
         
       </span>
     
@@ -328,9 +329,9 @@
 <p>总结一下：<strong>rMATS 的底层逻辑是“先假设真实<em>ψ</em>存在→ 结合长度权重得到抽样概率 <em>p</em> → 测序仪抽样服从二项分布 → 用观测数据反向推测最可能的 <em>ψ</em></strong>。</p>
 <p><img src="/2026/10/17/20261017-Understanding-rMATS/%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83%E7%9A%84%E7%BB%9F%E8%AE%A1%E8%A1%A8%E8%BE%BE%E5%BC%8F.jpg" srcset="/img/loading.gif" lazyload alt="二项分布的统计表达式"></p>
 <p>假设我们观测到了I条支持包含型的 read，和S条支持排除型的 read（总 read 数n &#x3D;I*+*S）。在这个单样本中，观测到当前这组数据的概率（似然函数）为：</p>
-<p>![inclusion isoform的似然函数](.&#x2F;20261017-Understanding-rMATS&#x2F;inclusion isoform的似然函数.jpg)</p>
+<p><img src="/2026/10/17/20261017-Understanding-rMATS/inclusion_isoform%E7%9A%84%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0.jpg" srcset="/img/loading.gif" lazyload alt="inclusion_isoform的似然函数"></p>
 <p>其中，p是经过长度加权的包含型（exon inclusion isoform）概率：</p>
-<p>![概率（inclusion isoform）](.&#x2F;20261017-Understanding-rMATS&#x2F;概率（inclusion isoform）.jpg)</p>
+<p>![概率（inclusion _isoform）](.&#x2F;20261017-Understanding-rMATS&#x2F;概率（inclusion _isoform）.jpg)</p>
 <p>But，这里需要注意一下的是，上面所计算出来的这个 ψ 值，就像用尺子量出了一个人的身高一样，它是一个确定性的计算结果（其实）。</p>
 <p>但测序数据是充满随机性的，所以这里，我们需要用二项分布模型对这种测序过程中的随机性进行评估，也就是给数据加一个置信区间。</p>
 <p>就像对这把尺子测得准不准做了一个判断，并且，通过二项分布，rMATS 为每一个事件计算出了一个方差（衡量该事件观测结果可靠性的指标），用于后续的跨样本分层统计模型分析。</p>
