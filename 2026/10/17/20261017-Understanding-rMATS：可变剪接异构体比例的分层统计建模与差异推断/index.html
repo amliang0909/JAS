@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/%E8%81%94%E5%90%88%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0.jpg">
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/%E4%BC%BC%E7%84%B6%E6%AF%94.jpg">
 <meta property="article:published_time" content="2026-10-17T11:09:37.000Z">
-<meta property="article:modified_time" content="2026-10-18T01:48:37.479Z">
+<meta property="article:modified_time" content="2026-10-18T01:58:12.037Z">
 <meta property="article:author" content="Liang An-Min">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/%E6%A6%82%E7%8E%87%EF%BC%88inclusion_isoform%EF%BC%89.jpg">
@@ -324,7 +324,7 @@
                 <h3 id="Understanding-rMATS：可变剪接异构体比例的分层统计建模与差异推断"><a href="#Understanding-rMATS：可变剪接异构体比例的分层统计建模与差异推断" class="headerlink" title="Understanding rMATS：可变剪接异构体比例的分层统计建模与差异推断"></a>Understanding rMATS：可变剪接异构体比例的分层统计建模与差异推断</h3><p>.</p>
 <p>rMATS（multivariate analysis of transcript splicing）的计算模型与算法思路，核心在于解决一个矛盾：也就是所要检测的两种剪接isoform之间的真实比例，但测序数据同时受到isoform长度差异和随机抽样噪音的干扰，因此，rMATS构建了一个分层统计模型，在单样本层面用二项分布处理测序噪音，在组间层面用logit-正态分布来处理生物学重复间的变异，并通过将有效长度校正嵌入二项分布的概率参数计算中，来估计真实的剪接包含水平。</p>
 <p>.</p>
-<p>————————————————————————————————————————————————————————————</p>
+<p>​     ————————————————————————————————————————————————————————</p>
 <p>在上一篇（Understanding rMATS: 基于 Junction Reads 的剪接Inclusion水平（PSI&#x2F;<em>ψ</em>）估计）中，已经介绍了用于估算剪接inclusion水平的ψ值。</p>
 <p>.</p>
 <p>But，这里需要注意一下的是，上面所计算出来的这个ψ值，是一个确定性的计算结果（只是一个点估计）。而测序数据是充满随机性的，你不知道这个ψ值是因为你测了 10000 条 read 得到的（极度准确），还是因为只测了5条 read 得到的（纯属偶然）。所以，这里需要用概率模型（这里使用的是二项分布）对这种测序过程中的随机性进行评估，也就是给数据加一个置信区间——就像对尺子测得准不准做了一个判断。</p>
@@ -467,8 +467,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/" title="202Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计">
-                        <span class="hidden-mobile">202Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计</span>
+                      <a href="/2026/10/14/20261014-Understanding-rMATS%EF%BC%9A%E5%9F%BA%E4%BA%8E-Junction-Reads-%E7%9A%84%E5%89%AA%E6%8E%A5Inclusion%E6%B0%B4%E5%B9%B3%EF%BC%88PSI%EF%BC%89%E4%BC%B0%E8%AE%A1/" title="Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计">
+                        <span class="hidden-mobile">Understanding rMATS：基于 Junction Reads 的剪接Inclusion水平（PSI）估计</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
