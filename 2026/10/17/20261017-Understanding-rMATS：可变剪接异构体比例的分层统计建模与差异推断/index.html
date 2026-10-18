@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/%E8%81%94%E5%90%88%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0.jpg">
 <meta property="og:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/%E4%BC%BC%E7%84%B6%E6%AF%94.jpg">
 <meta property="article:published_time" content="2026-10-17T11:09:37.000Z">
-<meta property="article:modified_time" content="2026-10-18T10:35:56.478Z">
+<meta property="article:modified_time" content="2026-10-18T10:39:02.689Z">
 <meta property="article:author" content="Liang An-Min">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/17/20261017-Understanding-rMATS%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%89%AA%E6%8E%A5%E5%BC%82%E6%9E%84%E4%BD%93%E6%AF%94%E4%BE%8B%E7%9A%84%E5%88%86%E5%B1%82%E7%BB%9F%E8%AE%A1%E5%BB%BA%E6%A8%A1%E4%B8%8E%E5%B7%AE%E5%BC%82%E6%8E%A8%E6%96%AD/the_unpaired_rMATS_model.jpg">
@@ -361,8 +361,7 @@
 <p>.</p>
 <p>rMATS算法通过构建包含二项分布（技术噪声）和正态分布（生物学变异）的联合似然函数，进行似然比检验，进而计算出每个事件的 <strong>P 值</strong>。由于全基因组范围内检验的事件数量极其庞大（数万至数十万），rMATS 最终会对所有 P 值进行 Benjamini-Hochberg 多重检验校正，并输出 FDR（控制假阳性率）。</p>
 <p>.</p>
-<p><strong>P值是怎么算出来的？（似然比检验）</strong></p>
-<p>这是 rMATS 算法的核心。</p>
+<h5 id="P值是怎么算出来的？（似然比检验）"><a href="#P值是怎么算出来的？（似然比检验）" class="headerlink" title="P值是怎么算出来的？（似然比检验）"></a>P值是怎么算出来的？（似然比检验）</h5><p>这是 rMATS 算法的核心。</p>
 <p>P 值不是套公式直接算出来的，而是通过比较两个模型的“拟合优度”得出的。</p>
 <p>.</p>
 <p>rMATS 把单样本的“二项分布”和组内的“正态分布”乘在一起，形成一个巨大的似然函数 <em>L</em>，也就是构建联合似然函数。</p>
