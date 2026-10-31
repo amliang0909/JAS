@@ -19,17 +19,19 @@
   <meta name="author" content="Liang An-Min">
   <meta name="keywords" content="">
   
-    <meta name="description" content="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解. 下面的韦恩图展示的是两种处理条件下的差异基因overlap情况。 图中的 p值（p-value） 代表的是统计学显著性，具体来说，它衡量的是：“这两个基因列表之间的重叠（交集），是否只是由于随机偶然造成的。” ![overlap DEGs between Sxl-KD and Sxl-OE](.&#x2F;20261031">
+    <meta name="description" content="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解. 下面的韦恩图展示的是两种处理条件下的差异基因overlap情况。 图中的 p值（p-value） 代表的是统计学显著性，具体来说，它衡量的是：“这两个基因列表之间的重叠（交集），是否只是由于随机偶然造成的。”  这个p值是怎么算出来的？这种韦恩图的重叠显著性通常使用超几何分布（Hypergeometric Distribu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解">
 <meta property="og:url" content="https://www.lianganmin.cn/2026/10/31/20261031-%E4%B8%A4%E7%BB%84%E5%9F%BA%E5%9B%A0%E6%95%B0%E6%8D%AEOverlap%E6%98%BE%E8%91%97%E6%80%A7%E6%80%8E%E4%B9%88%E7%AE%97%EF%BC%9FFisher%E6%A3%80%E9%AA%8C%E4%B8%8E%E8%B6%85%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Liang An-Min">
-<meta property="og:description" content="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解. 下面的韦恩图展示的是两种处理条件下的差异基因overlap情况。 图中的 p值（p-value） 代表的是统计学显著性，具体来说，它衡量的是：“这两个基因列表之间的重叠（交集），是否只是由于随机偶然造成的。” ![overlap DEGs between Sxl-KD and Sxl-OE](.&#x2F;20261031">
+<meta property="og:description" content="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解. 下面的韦恩图展示的是两种处理条件下的差异基因overlap情况。 图中的 p值（p-value） 代表的是统计学显著性，具体来说，它衡量的是：“这两个基因列表之间的重叠（交集），是否只是由于随机偶然造成的。”  这个p值是怎么算出来的？这种韦恩图的重叠显著性通常使用超几何分布（Hypergeometric Distribu">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.lianganmin.cn/2026/10/31/20261031-%E4%B8%A4%E7%BB%84%E5%9F%BA%E5%9B%A0%E6%95%B0%E6%8D%AEOverlap%E6%98%BE%E8%91%97%E6%80%A7%E6%80%8E%E4%B9%88%E7%AE%97%EF%BC%9FFisher%E6%A3%80%E9%AA%8C%E4%B8%8E%E8%B6%85%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E8%AF%A6%E8%A7%A3/overlap_DEGs_between_Sxl-KD_and_Sxl-OE.jpg">
 <meta property="article:published_time" content="2026-10-31T15:08:34.000Z">
-<meta property="article:modified_time" content="2026-10-31T16:27:58.900Z">
+<meta property="article:modified_time" content="2026-10-31T16:33:25.638Z">
 <meta property="article:author" content="Liang An-Min">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lianganmin.cn/2026/10/31/20261031-%E4%B8%A4%E7%BB%84%E5%9F%BA%E5%9B%A0%E6%95%B0%E6%8D%AEOverlap%E6%98%BE%E8%91%97%E6%80%A7%E6%80%8E%E4%B9%88%E7%AE%97%EF%BC%9FFisher%E6%A3%80%E9%AA%8C%E4%B8%8E%E8%B6%85%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E8%AF%A6%E8%A7%A3/overlap_DEGs_between_Sxl-KD_and_Sxl-OE.jpg">
   
   
   
@@ -253,7 +255,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          179 words
+          145 words
         
       </span>
     
@@ -318,7 +320,7 @@
                 <h3 id="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解"><a href="#两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解" class="headerlink" title="两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解"></a>两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解</h3><p>.</p>
 <p>下面的韦恩图展示的是两种处理条件下的差异基因overlap情况。</p>
 <p>图中的 p值（p-value） 代表的是统计学显著性，具体来说，它衡量的是：“这两个基因列表之间的重叠（交集），是否只是由于随机偶然造成的。”</p>
-<p>![overlap DEGs between Sxl-KD and Sxl-OE](.&#x2F;20261031-两组基因数据Overlap显著性怎么算？Fisher检验与超几何分布详解&#x2F;overlap DEGs between Sxl-KD and Sxl-OE.jpg)</p>
+<p><img src="/2026/10/31/20261031-%E4%B8%A4%E7%BB%84%E5%9F%BA%E5%9B%A0%E6%95%B0%E6%8D%AEOverlap%E6%98%BE%E8%91%97%E6%80%A7%E6%80%8E%E4%B9%88%E7%AE%97%EF%BC%9FFisher%E6%A3%80%E9%AA%8C%E4%B8%8E%E8%B6%85%E5%87%A0%E4%BD%95%E5%88%86%E5%B8%83%E8%AF%A6%E8%A7%A3/overlap_DEGs_between_Sxl-KD_and_Sxl-OE.jpg" srcset="/img/loading.gif" lazyload alt="overlap_DEGs_between_Sxl-KD_and_Sxl-OE"></p>
 <h6 id="这个p值是怎么算出来的？"><a href="#这个p值是怎么算出来的？" class="headerlink" title="这个p值是怎么算出来的？"></a>这个p值是怎么算出来的？</h6><p>这种韦恩图的重叠显著性通常使用<strong>超几何分布（Hypergeometric Distribution）</strong>或<strong>Fisher精确检验（Fisher’s Exact Test）</strong>来计算。</p>
 
                 
